@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["node_modules/@types"],
     "allowSyntheticDefaultImports": true,
+    "typeRoots": ["node_modules/@types"],
 
     "types": ["node", "vite/client"],
     "jsxImportSource": "solid-js",

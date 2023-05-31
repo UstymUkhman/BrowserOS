@@ -1,0 +1,30 @@
+copyright: Copyright © 2023 Ustym Ukhman
+appId: com.electron.BrowserOS
+productName: BrowserOS
+buildVersion: 0.0.0
+publish: null
+
+extraMetadata:
+  main: build/main.js
+
+files:
+  - dist/**/*
+  - build/**/*
+  - package.json
+  - node_modules/**/*
+
+directories:
+  output: build
+  buildResources: dist/favicons
+
+win:
+  legalTrademarks: Copyright © 2019 - 2023 Ustym Ukhman
+  icon: dist/favicons/favicon-512x512.png
+  publisherName: Ustym Ukhman
+  target: zip
+
+linux:
+  icon: dist/favicons/favicon-512x512.png
+  maintainer: Ustym Ukhman
+  target: AppImage
+  category: os

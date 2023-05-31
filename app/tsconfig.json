@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "typeRoots": ["node_modules/@types"],
+    "paths": { "*": ["node_modules/*"] },
+
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "noUnusedLocals": true,
+    "importHelpers": true,
+    "noImplicitAny": true,
+
+    "outDir": "../build",
+    "module": "commonjs",
+    "sourceMap": false,
+    "checkJs": false,
+    "allowJs": false,
+    "baseUrl": ".",
+    "strict": true
+  },
+
+  "include": ["./**/*.ts"]
+}

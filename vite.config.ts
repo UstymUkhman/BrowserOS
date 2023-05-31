@@ -6,7 +6,6 @@ import { version } from "./package.json";
 export default () => defineConfig({
   base: "./",
   plugins: [solid()],
-  build: { target: "esnext" },
 
   resolve: {
     alias: { "@": resolve("src") },
@@ -25,6 +24,7 @@ export default () => defineConfig({
 
   server: {
     host: "0.0.0.0",
-    port: 8080
+    port: 8080,
+    open: true
   }
 });

@@ -2,6 +2,7 @@
   "name": "BrowserOS",
   "description": "Electron app turned into OS",
   "homepage": "https://github.com/UstymUkhman/BrowserOS#readme",
+  "AppImage": "build/BrowserOS-0.0.0.AppImage",
   "packageManager": "^pnpm@8.6.0",
   "main": "src/main.tsx",
   "version": "0.0.0",
@@ -34,19 +35,28 @@
     "pnpm"
   ],
   "scripts": {
-    "start": "vite",
-    "build": "vite build",
+    "start:web": "vite",
     "serve": "vite preview",
-    "lint:css": "stylelint **/*.{css,scss}",
-    "lint:js": "eslint src/**/*.{ts,tsx,js,jsx}"
+    "build:web": "vite build",
+    "lint:css": "stylelint **/*.css",
+    "lint:js": "eslint src/**/*.{ts,tsx,js,jsx}",
+    "start:app": "pnpm build:app && pnpm build:dev",
+    "postinstall": "electron-builder install-app-deps",
+    "build:app": "pnpm build:web && tsc --project app",
+    "build:prod": "npx electron-builder --config app/builder.yml",
+    "build:test": "npx electron-builder --dir --config app/builder.yml",
+    "build:dev": "set ENVIRONMENT=development&& electron build/main.js"
   },
   "dependencies": {
     "solid-js": "^1.7.6"
   },
   "devDependencies": {
+    "@mainsilent/linux.js": "^1.1.2",
     "@types/node": "^20.2.5",
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@typescript-eslint/parser": "^5.59.8",
+    "electron": "13.6.9",
+    "electron-builder": "^24.4.0",
     "eslint": "^8.41.0",
     "stylelint": "^15.6.2",
     "stylelint-config-standard": "^33.0.0",

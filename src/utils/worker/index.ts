@@ -1,13 +1,9 @@
-type EventData = { callback: Callback, params?: EventParams };
-type EventParams = Record<string, unknown>;
-type Callback = (data: unknown) => void;
-
-import WebWorker from './worker?worker';
+import WebWorker from "./worker?worker";
 
 export default class Worker
 {
-  private events: Map<string, EventData> = new Map();
   private worker = new WebWorker();
+  private events: Map<string, EventData> = new Map();
 
   public constructor () {
     this.worker.onmessage = this.onMessage.bind(this);

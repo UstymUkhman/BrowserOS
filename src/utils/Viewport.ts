@@ -21,7 +21,7 @@ class Viewport
   private readonly root = document.documentElement.style;
 
   public constructor () {
-    window.addEventListener('resize', this.update, false);
+    window.addEventListener("resize", this.update, false);
     this.updateSize();
   }
 
@@ -40,16 +40,16 @@ class Viewport
     this.height = window.innerHeight;
     this.ratio = this.width / this.height;
 
-    this.root.setProperty('--ratio', `${this.ratio}`);
-    this.root.setProperty('--width', `${this.width}px`);
-    this.root.setProperty('--height', `${this.height}px`);
+    this.root.setProperty("--ratio", `${this.ratio}`);
+    this.root.setProperty("--width", `${this.width}px`);
+    this.root.setProperty("--height", `${this.height}px`);
 
     for (let c = this.callbacks.length; c--;)
       this.callbacks[c](this.width, this.height, this.ratio);
   }
 
   public dispose () {
-    window.removeEventListener('resize', this.update, false);
+    window.removeEventListener("resize", this.update, false);
     this.callbacks.length = 0;
   }
 

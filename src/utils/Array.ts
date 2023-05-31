@@ -1,4 +1,4 @@
-import { randomInt, random as randomFloat } from '@/utils/Number';
+import { randomInt, random as randomFloat } from "@/utils/Number";
 
 export function fisherYates<T>(a: T[], c = a.length, r = 0): void {
   while (c) {

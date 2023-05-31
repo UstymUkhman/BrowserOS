@@ -1,19 +1,19 @@
 {
-  "name": "threejs-boilerplate",
-  "description": "Three.js + TypeScript + SolidJS + Vite + Vitest",
-  "homepage": "https://github.com/UstymUkhman/threejs-boilerplate#readme",
-  "packageManager": "^pnpm@8.4.0",
+  "name": "BrowserOS",
+  "description": "Electron app turned into OS",
+  "homepage": "https://github.com/UstymUkhman/BrowserOS#readme",
+  "packageManager": "^pnpm@8.6.0",
   "main": "src/main.tsx",
-  "version": "4.0.0",
+  "version": "0.0.0",
   "license": "MIT",
   "private": false,
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/UstymUkhman/threejs-boilerplate.git"
+    "url": "https://github.com/UstymUkhman/BrowserOS.git"
   },
   "bugs": {
-    "url": "https://github.com/UstymUkhman/threejs-boilerplate/issues",
+    "url": "https://github.com/UstymUkhman/BrowserOS/issues",
     "email": "ustym.ukhman@gmail.com"
   },
   "author": {
@@ -22,59 +22,40 @@
     "url": "https://github.com/UstymUkhman/"
   },
   "keywords": [
-    "vite",
-    "webgl",
-    "webgl2",
-    "threejs",
-    "solidjs",
-    "template",
-    "boilerplate",
+    "os",
+    "linux",
+    "browser",
+    "electron",
+    "electron-app",
+    "operating-system",
     "typescript",
-    "vitest",
+    "solidjs",
+    "vite",
     "pnpm"
   ],
   "scripts": {
     "start": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:cover": "vitest run --coverage",
     "lint:css": "stylelint **/*.{css,scss}",
     "lint:js": "eslint src/**/*.{ts,tsx,js,jsx}"
   },
   "dependencies": {
-    "animejs": "^3.2.1",
-    "solid-js": "^1.7.4",
-    "three": "^0.152.2"
+    "solid-js": "^1.7.6"
   },
   "devDependencies": {
-    "@solidjs/testing-library": "^0.7.0",
-    "@types/animejs": "^3.1.7",
-    "@types/node": "^18.16.3",
-    "@types/three": "^0.152.0",
-    "@typescript-eslint/eslint-plugin": "^5.59.2",
-    "@typescript-eslint/parser": "^5.59.2",
-    "@vitest/coverage-c8": "^0.28.4",
-    "@vitest/web-worker": "^0.28.4",
-    "c8": "^7.13.0",
-    "eslint": "^8.39.0",
-    "jest-canvas-mock": "^2.5.0",
-    "jsdom": "^22.0.0",
-    "lil-gui": "^0.18.1",
-    "postcss": "^8.4.23",
-    "postcss-scss": "^4.0.6",
-    "sass": "^1.62.1",
-    "stylelint": "^15.6.1",
+    "@types/node": "^20.2.5",
+    "@typescript-eslint/eslint-plugin": "^5.59.8",
+    "@typescript-eslint/parser": "^5.59.8",
+    "eslint": "^8.41.0",
+    "stylelint": "^15.6.2",
     "stylelint-config-standard": "^33.0.0",
     "typescript": "^5.0.4",
-    "vite": "^4.2.2",
-    "vite-plugin-glsl": "^1.1.2",
-    "vite-plugin-solid": "^2.7.0",
-    "vitest": "^0.28.4"
+    "vite": "^4.3.9",
+    "vite-plugin-solid": "^2.7.0"
   },
   "engines": {
     "node": ">= 18.12.1",
-    "pnpm": ">= 8.4.0"
+    "pnpm": ">= 8.6.0"
   }
 }

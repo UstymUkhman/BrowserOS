@@ -12,7 +12,7 @@ const deepFreeze: typeof Freeze = (object: any): DeepReadonly<any> => {
 
   for (const name in proprieties) {
     const value = object[proprieties[name]];
-    const canFreeze = typeof value === 'object' || typeof value === 'function';
+    const canFreeze = typeof value === "object" || typeof value === "function";
 
     if (value && canFreeze && !Object.isFrozen(value)) {
       deepFreeze(value);

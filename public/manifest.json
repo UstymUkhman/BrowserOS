@@ -1,14 +1,14 @@
 {
-  "scope": "/",
-  "start_url": "/",
+  "scope": "./",
+  "start_url": "./",
 
-  "display": "standalone",
+  "name": "BrowserOS",
+  "display": "fullscreen",
   "author": "Ustym Ukhman",
-  "orientation": "portrait",
 
-  "name": "Three.js Boilerplate",
-  "short_name": "Three.js Boilerplate",
-  "description": "Three.js + TypeScript + SolidJS + Vite + Vitest",
+  "short_name": "BrowserOS",
+  "orientation": "landscape",
+  "description": "Electron app turned into OS",
 
   "prefer_related_applications": false,
   "background_color": "#222222",

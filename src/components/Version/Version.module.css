@@ -1,15 +1,13 @@
-@use "@scss/colors.scss" as Color;
-
 .version {
-  background-color: Color.$dark-gray;
-  color: Color.$light-gray;
-
+  background-color: #222;
   pointer-events: none;
+
   padding: 3px 10px;
   font-size: 12px;
 
   position: fixed;
   display: block;
+  color: #bbb;
 
   bottom: 0;
   right: 0;

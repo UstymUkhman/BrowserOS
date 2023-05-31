@@ -31,10 +31,10 @@ type LegacyWheelEvent = WheelEvent & {
  *
  * As of today, there are 4 DOM event types you can listen to:
  *
- *   'mousewheel'          --- Chrome, IE(6+), Opera, Safari
- *   'wheel'               --- Chrome(31+), FF(17+), IE(9+)
- *   'MozMousePixelScroll' --- FF(3.5 only!) (2010-2013)
- *   'DOMMouseScroll'      --- FF(0.9.7+) since 2003
+ *   "mousewheel"          --- Chrome, IE(6+), Opera, Safari
+ *   "wheel"               --- Chrome(31+), FF(17+), IE(9+)
+ *   "MozMousePixelScroll" --- FF(3.5 only!) (2010-2013)
+ *   "DOMMouseScroll"      --- FF(0.9.7+) since 2003
  *
  * In your event callback, use this code to get sane interpretation of the deltas.
  * This code will return an object with properties:
@@ -65,7 +65,7 @@ type LegacyWheelEvent = WheelEvent & {
  *
  *   - positive value indicates scrolling DOWN/RIGHT, negative UP/LEFT.
  *     This should translate to positive value zooming IN,
- *     negative zooming OUT. This matches the newer 'wheel' event.
+ *     negative zooming OUT. This matches the newer "wheel" event.
  *
  * Why are there spinX, spinY (or pixels)?
  *
@@ -74,13 +74,13 @@ type LegacyWheelEvent = WheelEvent & {
  *
  *   - spinY is what you expect - it's the classic axis of a mouse wheel.
  *
- *   - I dropped spinZ/pixelZ. It is supported by the DOM 3 'wheel' event and
+ *   - I dropped spinZ/pixelZ. It is supported by the DOM 3 "wheel" event and
  *     probably is by browsers in conjunction with fancy 3D controllers...
  *     but you know.
  *
  * Implementation info:
  *
- * Examples of 'wheel' event if you scroll (down)
+ * Examples of "wheel" event if you scroll (down)
  * slowly by one step with an average mouse:
  *
  *   OS X + Chrome  (mouse)      -     4    pixel  delta  (wheelDelta -120)
@@ -97,7 +97,7 @@ type LegacyWheelEvent = WheelEvent & {
  * On other/older browsers... it's more complicated as there can be
  * multiple and also missing delta values.
  *
- * The 'wheel' event is more standard:
+ * The "wheel" event is more standard:
  * http://www.w3.org/TR/DOM-Level-3-Events/#events-wheelevents
  *
  * The basics is that it includes a unit, deltaMode (pixels, lines, pages), and

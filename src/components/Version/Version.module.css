@@ -1,7 +1,7 @@
 .version {
-  background-color: rgb(34 34 34);
+  background-color: rgb(var(--primary));
   font-family: 'Roboto Condensed';
-  color: rgb(187 187 187);
+  color: rgb(var(--secondary));
 
   pointer-events: none;
   padding: 3px 10px;

@@ -1,9 +1,28 @@
 .clock {
-  font-family: 'Roboto Condensed';
-  color: rgb(187 187 187);
-  vertical-align: middle;
+  text-align: center;
+  position: absolute;
 
-  position: relative;
-  font-weight: bold;
-  font-size: 12px;
+  max-width: 100px;
+  cursor: pointer;
+
+  line-height: 1;
+  margin: auto;
+
+  right: 0;
+  left: 0;
+
+  & span {
+    font-family: 'Roboto Condensed';
+    color: rgb(var(--primary));
+    vertical-align: middle;
+    transition: color 0.2s;
+  
+    position: relative;
+    font-weight: bold;
+    font-size: 12px;
+  }
+
+  &:hover span {
+    color: rgb(var(--primaryHover));
+  }
 }

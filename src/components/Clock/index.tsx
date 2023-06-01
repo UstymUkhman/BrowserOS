@@ -31,5 +31,9 @@ export const Clock = ({ showSeconds }: ClockProps) =>
 
   onCleanup(() => RAF.remove(tick));
 
-  return <span class={CSS.clock}>{time()}</span>;
+  return (
+    <div class={CSS.clock}>
+      <span>{time()}</span>
+    </div>
+  );
 };

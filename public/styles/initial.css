@@ -19,8 +19,8 @@ body {
   -webkit-touch-callout: none;
   backface-visibility: hidden;
 
-  background-color: #222222;
   -webkit-user-select: none;
+  background-color: #222;
   text-size-adjust: none;
   letter-spacing: normal;
 
@@ -40,7 +40,7 @@ body {
   min-width: 100%;
 
   font-size: 16px;
-  color: #bbbbbb;
+  color: #bbb;
 
   height: 100%;
   width: 100%;

@@ -1,6 +1,7 @@
 .switcher {
-  background-color: rgb(187 187 187);
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, border-color 0.2s;
+  background-color: rgb(var(--secondary));
+  border: 1px solid rgb(var(--primary));
   display: inline-block;
 
   border-radius: 32px;
@@ -10,38 +11,59 @@
   height: 16px;
   width: 32px;
 
-  & input {
-    pointer-events: none;
-    visibility: hidden;
+  & svg:first-child {
+    stroke: rgb(var(--secondaryHover));
+    color: rgb(var(--secondaryHover));
 
-    opacity: 0;
-    margin: 0;
+    position: absolute;
+    height: 15px;
+  }
 
-    height: 0;
-    width: 0;
+  & svg:last-child {
+    stroke: rgb(var(--primaryHover));
+    color: rgb(var(--primaryHover));
+
+    position: absolute;
+    height: 14px;
+    right: 0;
   }
 
   &::after {
     transition: transform 0.25s ease-in-out, background-color 0.2s;
-    background-color: rgb(34 34 34);
+    background-color: rgb(var(--primary));
 
     border-radius: 50%;
     position: absolute;
 
     height: 14px;
     width: 14px;
-
     content: "";
-    left: 1px;
-    top: 1px;
   }
 
   &.enabled {
-    background-color: rgb(34 34 34);
+    border-color: transparent;
+    background-color: rgb(var(--primary));
 
     &::after {
-      background-color: rgb(187 187 187);
+      background-color: rgb(var(--secondary));
       transform: translateX(16px);
+    }
+  }
+
+  &:hover {
+    border-color: rgb(var(--primaryHover));
+    background-color: rgb(var(--secondaryHover));
+
+    &::after {
+      background-color: rgb(var(--primaryHover));
+    }
+
+    &.enabled {
+      background-color: rgb(var(--primaryHover));
+  
+      &::after {
+        background-color: rgb(var(--secondaryHover));
+      }
     }
   }
 }

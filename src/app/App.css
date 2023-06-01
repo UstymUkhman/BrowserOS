@@ -1,7 +1,18 @@
+:root {
+  --dark: 34 34 34;
+  --light: 187 187 187;
+
+  --primary: var(--dark);
+  --secondary: var(--light);
+
+  --primaryHover: 0 0 0;
+  --secondaryHover: 255 255 255;
+}
+
 html,
 body {
-  background-color: rgb(187 187 187);
-  color: rgb(34 34 34);
+  background-color: rgb(var(--secondary));
+  color: rgb(var(--primary));
 }
 
 button {

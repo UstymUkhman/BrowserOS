@@ -1,30 +1,18 @@
+import { APP } from "@/app";
 import CSS from "./Taskbar.module.css";
 import { Clock } from "@/components/Clock";
+import { Shutdown } from "@/components/Shutdown";
 import { Switcher } from "@/components/Switcher";
-import Shutdown from "@/assets/icons/shutdown.svg";
 
-export const Taskbar = () =>
-{
-  const app = globalThis as Application;
-  const shutdown = () => app.shutdown();
+export const Taskbar = () => (
+  <nav class={CSS.taskbar}>
+    <Clock />
 
-  return (
-    <nav class={CSS.taskbar}>
-      <div class={CSS.center}>
-        <Clock />
-      </div>
-
-      <div class={CSS.right} classList={{
-        [CSS.shutdown]: app.electron
-      }}>
-        <Switcher active />
-
-        {app.electron && (
-          <button onClick={shutdown}>
-            <Shutdown />
-          </button>
-        )}
-      </div>
-    </nav>
-  );
-};
+    <div class={CSS.right} classList={{
+      [CSS.shutdown]: APP.electron
+    }}>
+      <Switcher active />
+      {APP.electron && <Shutdown />}
+    </div>
+  </nav>
+);

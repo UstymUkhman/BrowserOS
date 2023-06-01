@@ -13,7 +13,7 @@
 
   & span {
     font-family: 'Roboto Condensed';
-    color: rgb(var(--primary));
+    color: rgb(var(--secondary));
     vertical-align: middle;
     transition: color 0.2s;
   
@@ -23,6 +23,6 @@
   }
 
   &:hover span {
-    color: rgb(var(--primaryHover));
+    color: rgb(var(--secondaryHover));
   }
 }

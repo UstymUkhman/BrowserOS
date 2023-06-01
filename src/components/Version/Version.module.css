@@ -1,4 +1,6 @@
 .version {
+  transition: background-color 1s;
+
   background-color: rgb(var(--primary));
   font-family: 'Roboto Condensed';
   color: rgb(var(--secondary));

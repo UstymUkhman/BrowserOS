@@ -7,4 +7,8 @@ window.addEventListener("DOMContentLoaded", () => {
   console.info(`Electron : v${process.versions.electron}`);
 });
 
-contextBridge.exposeInMainWorld("exit", () => ipcRenderer.sendSync("exit"));
+contextBridge.exposeInMainWorld("electron", true);
+
+contextBridge.exposeInMainWorld("shutdown", () =>
+  ipcRenderer.sendSync("shutdown")
+);

@@ -12,7 +12,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   -webkit-overflow-scrolling: touch;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
 
   font-variant-ligatures: none;
   overscroll-behavior: contain;

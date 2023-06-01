@@ -52,4 +52,4 @@ app.on("web-contents-created", (_, contents) =>
   contents.setWindowOpenHandler(() => ({ action: "deny" }))
 );
 
-ipcMain.on("exit", () => window?.destroy());
+ipcMain.on("shutdown", () => window?.destroy());

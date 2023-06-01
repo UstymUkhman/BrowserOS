@@ -1,0 +1,9 @@
+.clock {
+  font-family: 'Roboto Condensed';
+  color: rgb(187 187 187);
+  vertical-align: middle;
+
+  position: relative;
+  font-weight: bold;
+  font-size: 12px;
+}

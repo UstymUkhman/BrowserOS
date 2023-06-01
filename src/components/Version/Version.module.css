@@ -1,13 +1,15 @@
 .version {
-  background-color: #222;
-  pointer-events: none;
+  background-color: rgb(34 34 34);
+  font-family: 'Roboto Condensed';
+  color: rgb(187 187 187);
 
+  pointer-events: none;
   padding: 3px 10px;
+  font-weight: bold;
   font-size: 12px;
 
   position: fixed;
   display: block;
-  color: #bbb;
 
   bottom: 0;
   right: 0;

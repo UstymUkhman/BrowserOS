@@ -1,3 +1,3 @@
-import Style from "./Version.module.css";
+import CSS from "./Version.module.css";
 
-export const Version = () => <aside class={Style.version}>v{VERSION}</aside>;
+export const Version = () => <aside class={CSS.version}>v{VERSION}</aside>;

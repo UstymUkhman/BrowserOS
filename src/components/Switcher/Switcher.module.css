@@ -1,0 +1,47 @@
+.switcher {
+  background-color: rgb(187 187 187);
+  transition: background-color 0.2s;
+  display: inline-block;
+
+  border-radius: 32px;
+  position: relative;
+  cursor: pointer;
+
+  height: 16px;
+  width: 32px;
+
+  & input {
+    pointer-events: none;
+    visibility: hidden;
+
+    opacity: 0;
+    margin: 0;
+
+    height: 0;
+    width: 0;
+  }
+
+  &::after {
+    transition: transform 0.25s ease-in-out, background-color 0.2s;
+    background-color: rgb(34 34 34);
+
+    border-radius: 50%;
+    position: absolute;
+
+    height: 14px;
+    width: 14px;
+
+    content: "";
+    left: 1px;
+    top: 1px;
+  }
+
+  &.enabled {
+    background-color: rgb(34 34 34);
+
+    &::after {
+      background-color: rgb(187 187 187);
+      transform: translateX(16px);
+    }
+  }
+}

@@ -1,11 +1,12 @@
 import { resolve } from "path";
 import { defineConfig } from "vite";
 import solid from "vite-plugin-solid";
+import svg from "vite-plugin-solid-svg";
 import { version } from "./package.json";
 
 export default () => defineConfig({
   base: "./",
-  plugins: [solid()],
+  plugins: [solid(), svg()],
 
   resolve: {
     alias: { "@": resolve("src") },
@@ -24,7 +25,6 @@ export default () => defineConfig({
 
   server: {
     host: "0.0.0.0",
-    port: 8080,
-    open: true
+    port: 8080
   }
 });

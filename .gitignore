@@ -6,13 +6,13 @@ pids
 *.pid
 *.seed
 
-dist
-build/*
-node_modules
-
 .idea
 .vscode
 .DS_Store
 .lock-wscript
 
+dist
+build/*
+node_modules
+public/assets/*
 !build/package.json

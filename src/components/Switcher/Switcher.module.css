@@ -52,20 +52,19 @@
   }
 
   &:hover {
-    border-color: rgb(var(--primaryHover));
-    background-color: rgb(var(--secondaryHover));
+    border-color: rgb(var(--secondaryHover));
+    background-color: rgb(var(--primaryHover));
 
     &::after {
-      background-color: rgb(var(--primaryHover));
+      background-color: rgb(var(--secondaryHover));
     }
 
-    &.enabled {
-      border-color: rgb(var(--secondaryHover));
-      background-color: rgb(var(--primaryHover));
+    & svg:first-child {
+      stroke: rgb(var(--secondaryHover));
+    }
   
-      &::after {
-        background-color: rgb(var(--secondaryHover));
-      }
+    & svg:last-child {
+      fill: rgb(var(--secondaryHover));
     }
   }
 }

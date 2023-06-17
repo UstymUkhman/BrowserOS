@@ -4,7 +4,7 @@
     "allowSyntheticDefaultImports": true,
     "typeRoots": ["node_modules/@types"],
 
-    "types": ["./src/global.d.ts"],
+    "types": ["node", "vite/client"],
     "jsxImportSource": "solid-js",
     "paths": { "@/*": ["src/*"] },
 

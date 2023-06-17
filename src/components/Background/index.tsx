@@ -5,7 +5,7 @@ import { createSignal, onCleanup } from "solid-js";
 export const Background = () =>
 {
   const [light, setLight] = createSignal(false);
-  const onThemeUpdate = ({ data }: Event) => setLight(!!data);
+  const onThemeUpdate = ({ data }: Event) => setLight(!data);
 
   Emitter.add("Theme::Update", onThemeUpdate);
   onCleanup(() => Emitter.remove("Theme::Update", onThemeUpdate));

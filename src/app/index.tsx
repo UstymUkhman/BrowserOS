@@ -11,10 +11,18 @@ export const App = () =>
 {
   const onThemeUpdate = () => {
     const style = getComputedStyle(document.documentElement);
+
+    const secondaryHover = style.getPropertyValue("--secondaryHover");
+    const primaryHover = style.getPropertyValue("--primaryHover");
+
     const secondary = style.getPropertyValue("--secondary");
     const primary = style.getPropertyValue("--primary");
 
     const root = document.documentElement.style;
+
+    root.setProperty("--secondaryHover", primaryHover);
+    root.setProperty("--primaryHover", secondaryHover);
+
     root.setProperty("--secondary", primary);
     root.setProperty("--primary", secondary);
   };

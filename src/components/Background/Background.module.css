@@ -1,6 +1,6 @@
 .background {
-  --dark: url("/assets/images/background/dark.jpg");
   --light: url("/assets/images/background/light.jpg");
+  --dark: url("/assets/images/background/dark.jpg");
 
   position: absolute;
   inset: 0;
@@ -19,13 +19,13 @@
     width: 100%;
   }
 
-  &::after {
-    opacity: 0;
+  &::before {
     background-image: var(--light);
   }
 
-  &::before {
+  &::after {
     background-image: var(--dark);
+    opacity: 0;
   }
 
   &.light::after {

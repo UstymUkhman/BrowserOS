@@ -2,11 +2,11 @@
   --dark: 34 34 34;
   --light: 187 187 187;
 
-  --primary: var(--dark);
-  --secondary: var(--light);
+  --primary: var(--light);
+  --secondary: var(--dark);
 
-  --primaryHover: 0 0 0;
-  --secondaryHover: 255 255 255;
+  --secondaryHover: 0 0 0;
+  --primaryHover: 255 255 255;
 }
 
 html,

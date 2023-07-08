@@ -1,11 +1,13 @@
 .version {
   transition: background-color 1s;
-
   background-color: rgb(var(--primary));
-  font-family: 'Roboto Condensed';
-  color: rgb(var(--secondary));
 
+  font-family: 'Roboto Condensed',
+    sans-serif, system-ui, monospace;
+
+  color: rgb(var(--secondary));
   pointer-events: none;
+
   padding: 3px 10px;
   font-weight: bold;
   font-size: 12px;

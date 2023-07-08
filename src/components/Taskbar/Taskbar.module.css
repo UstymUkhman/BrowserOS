@@ -3,17 +3,16 @@
   --shadowAlpha: calc(var(--borderAlpha) / 2);
   --borderAlpha: calc(1 - var(--backgroundAlpha));
 
-  box-shadow: 0px 0px 2px 1px rgb(var(--secondary) / var(--shadowAlpha));
   transition: box-shadow 0.2s, background-color 0.2s, border-color 0.2s;
+  box-shadow: 0 0 2px 1px rgb(var(--secondary) / var(--shadowAlpha));
 
   background-color: rgb(var(--primary) / var(--backgroundAlpha));
   border: 1px solid rgb(var(--secondary) / var(--borderAlpha));
   backdrop-filter: blur(16px) saturate(180%);
 
   justify-content: space-between;
-  flex-direction: row-reverse;
+  flex-flow: row-reverse nowrap;
   align-items: center;
-  flex-wrap: nowrap;
 
   padding: 5px 10px;
   position: fixed;

@@ -15,4 +15,6 @@ dist
 build/*
 node_modules
 public/assets/*
+
 !build/package.json
+!public/assets/images/preview/*

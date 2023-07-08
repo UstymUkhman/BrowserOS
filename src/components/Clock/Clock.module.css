@@ -12,7 +12,9 @@
   left: 0;
 
   & span {
-    font-family: 'Roboto Condensed';
+    font-family: 'Roboto Condensed',
+      sans-serif, system-ui, monospace;
+
     color: rgb(var(--secondary));
     vertical-align: middle;
     transition: color 0.2s;

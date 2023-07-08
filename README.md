@@ -14,6 +14,8 @@
 ![](./public/assets/images/preview/light.png)
 ![](./public/assets/images/preview/dark.png)
 
+[![]](https://github.com/UstymUkhman/BrowserOS/assets/9247261/cc92e304-9ff2-4d80-9d60-739566c7f34c)
+
 ## Download ##
 
 ```

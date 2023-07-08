@@ -6,11 +6,11 @@
   width: 16px;
 
   & svg {
-    fill: rgb(var(--primary));
+    fill: rgb(var(--secondary));
     transition: fill 0.2s;
   }
 
   &:hover svg {
-    fill: rgb(var(--primaryHover));
+    fill: rgb(var(--secondaryHover));
   }
 }

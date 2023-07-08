@@ -3,7 +3,7 @@
   "description": "Electron app turned into OS",
   "homepage": "https://github.com/UstymUkhman/BrowserOS#readme",
   "AppImage": "build/BrowserOS-0.0.0.AppImage",
-  "packageManager": "^pnpm@8.6.0",
+  "packageManager": "^npm@9.8.0",
   "main": "src/main.tsx",
   "version": "0.0.0",
   "license": "MIT",

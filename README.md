@@ -18,45 +18,45 @@
 
 ## Download ##
 
-```
-git clone https://github.com/UstymUkhman/BrowserOS.git
-cd BrowserOS/
+```bash
+$ git clone https://github.com/UstymUkhman/BrowserOS.git
+$ cd BrowserOS/
 
-pnpm i   # Install project dependencies
-npx reqs # Download Linux filesystem
+$ pnpm i   # Install project dependencies
+$ npx reqs # Download Linux filesystem
 ```
 
 ## Develop ##
 
-```
-pnpm start:web # As a web application
-pnpm start:app # As an electron application
+```bash
+$ pnpm start:web # As a web application
+$ pnpm start:app # As an electron application
 ```
 
 ## Lint ##
 
-```
-pnpm lint:js  # Run eslint for TS and JS
-pnpm lint:css # Run stylelint for CSS
+```bash
+$ pnpm lint:js  # Run eslint for TS and JS
+$ pnpm lint:css # Run stylelint for CSS
 ```
 
 ## Build ##
 
-```
-pnpm build:web  # As a web application
-pnpm build:app  # As an electron application
-pnpm build:test # As an unpacked application
-pnpm build:prod # As a production application
+```bash
+$ pnpm build:web  # As a web application
+$ pnpm build:app  # As an electron application
+$ pnpm build:test # As an unpacked application
+$ pnpm build:prod # As a production application
 ```
 
 ## Run ##
 
 ### Qemu (Linux): ###
 
-```
-pnpm build:app  # Build as an electron application
-pnpm build:prod # Package it to be production-ready
+```bash
+$ pnpm build:app  # Build as an electron application
+$ pnpm build:prod # Package it to be production-ready
 
-npx linuxjs     # Create an ISO image and launch qemu to run it:
-qemu-system-x86_64 -boot d -cdrom filesystem/BrowserOS.iso -m 4096
+$ npx linuxjs     # Create an ISO image and launch qemu to run it:
+$ qemu-system-x86_64 -boot d -cdrom filesystem/BrowserOS.iso -m 4096
 ```

@@ -5,7 +5,10 @@ process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "true";
 delete process.env.ELECTRON_ENABLE_SECURITY_WARNINGS;
 
 let window: BrowserWindow | null = null;
+let browser: Browser | null = null;
 
+import Browser from "./browser";
+import Config from "./config";
 import { join } from "path";
 
 function createWindow(): void {
@@ -16,14 +19,16 @@ function createWindow(): void {
       preload: join(__dirname, "./preloader.js")
     },
 
-    backgroundColor: "#222222",
+    backgroundColor: Config.background,
     fullscreen: PRODUCTION,
     frame: !PRODUCTION
   });
 
   window.loadFile(join(__dirname, "../dist/index.html"));
   !PRODUCTION && window.webContents.openDevTools();
+
   window.on("closed", () => window = null);
+  browser = new Browser(window);
 }
 
 app.whenReady().then(() => {
@@ -32,17 +37,14 @@ app.whenReady().then(() => {
   const { width: screenWidth, height: screenHeight } =
     screen.getPrimaryDisplay().workAreaSize;
 
-  const width = 800;
-  const height = 600;
-
+  const { width, height } = Config;
   const x = (screenWidth - width) * 0.5;
   const y = (screenHeight - height) * 0.5;
 
-  window?.setBounds({ height, width, x, y });
+  window?.setBounds({ x, y, width, height });
 });
 
 app.on("ready", createWindow);
-app.on("activate", createWindow);
 
 app.on("window-all-closed", () =>
   process.platform !== "darwin" && app.quit()
@@ -52,4 +54,7 @@ app.on("web-contents-created", (_, contents) =>
   contents.setWindowOpenHandler(() => ({ action: "deny" }))
 );
 
-ipcMain.on("shutdown", () => window?.destroy());
+ipcMain.on("shutdown", () => {
+  browser?.destroy();
+  window?.destroy();
+});

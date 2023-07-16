@@ -11,7 +11,7 @@
   right: 0;
   left: 0;
 
-  & span {
+  & time {
     font-family: 'Roboto Condensed',
       sans-serif, system-ui, monospace;
 
@@ -24,7 +24,7 @@
     font-size: 12px;
   }
 
-  &:hover span {
+  &:hover time {
     color: rgb(var(--secondaryHover));
   }
 }

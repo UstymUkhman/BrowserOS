@@ -1,12 +1,17 @@
 import RAF from "@/utils/RAF";
 import CSS from "./Clock.module.css";
+import { Menu } from "@/components/Menu";
 import type { ClockProps } from "./types";
 import { createSignal, onCleanup } from "solid-js";
 
 export const Clock = ({ showSeconds }: ClockProps) =>
 {
   const date = new Date();
+
   const [time, setTime] = createSignal("");
+  const [menu, showMenu] = createSignal(false);
+
+  const toggleMenu = () => showMenu(!menu());
 
   const tick = () => {
     let ss = "";
@@ -32,8 +37,14 @@ export const Clock = ({ showSeconds }: ClockProps) =>
   onCleanup(() => RAF.remove(tick));
 
   return (
-    <div class={CSS.clock}>
-      <span>{time()}</span>
+    <div class={CSS.clock} onClick={toggleMenu}>
+      <time>{time()}</time>
+
+      {menu() && (
+        <Menu items={[{
+          component: <Clock showSeconds />
+        }]} />
+      )}
     </div>
   );
 };

@@ -28,7 +28,16 @@ export const App = () =>
   };
 
   Emitter.add("Theme::Update", onThemeUpdate);
-  onCleanup(() => Emitter.remove("Theme::Update", onThemeUpdate));
+
+  const onContextMenu = (event: MouseEvent) =>
+    event.preventDefault();
+
+  !import.meta.env.DEV &&
+    APP.addEventListener("contextmenu", onContextMenu);
+
+  onCleanup(() => {
+    Emitter.remove("Theme::Update", onThemeUpdate);
+  });
 
   return (
     <>

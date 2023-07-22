@@ -20,19 +20,43 @@ export const Window = (
 ) => {
   let window: unknown;
 
+  const mouse = { x: 0.0, y: 0.0 };
   const [top, setTop] = createSignal(y);
   const [left, setLeft] = createSignal(x);
 
+  const [drag, setDrag] = createSignal(false);
   const [dark, setDark] = createSignal(APP.darkMode);
   const [vertical, setVertical] = createSignal(height);
 
   const [horizontal, setHorizontal] = createSignal(width);
   const [fullscreen, setFullscreen] = createSignal(false);
-
   const onThemeUpdate = (event: Event) => setDark(!event.data);
 
   const onWindowClick = (event: ClickEvent) =>
     onFocus(event, window as HTMLElement, id);
+
+  const dragStart = (event: ClickEvent) => {
+    if (fullscreen()) return;
+    mouse.x = event.clientX;
+    mouse.y = event.clientY;
+    setDrag(true);
+  };
+
+  const dragMove = (event: ClickEvent) => {
+    if (!drag()) return;
+    let { x, y } = mouse;
+
+    mouse.x = event.clientX;
+    mouse.y = event.clientY;
+
+    x = event.clientX - x;
+    y = event.clientY - y;
+
+    setLeft(left() + x);
+    setTop(top() + y);
+  };
+
+  const dragStop = () => setDrag(false);
 
   const close = (event: MouseEvent) => {
     event.stopPropagation();
@@ -73,14 +97,23 @@ export const Window = (
       onclick={onWindowClick}
       ref={window as HTMLElement}
       style={{
+        transform: `translate(${left()}px, ${top()}px)`,
         width: `${horizontal()}px`,
-        height: `${vertical()}px`,
-        left: `${left()}px`,
-        top: `${top()}px`
+        height: `${vertical()}px`
       }}
     >
       {!hideBar && (
-        <nav class={CSS.toolbar}>
+        <nav
+          onmousedown={dragStart}
+          onmousemove={dragMove}
+          onmouseout={dragStop}
+          onmouseup={dragStop}
+          class={CSS.toolbar}
+          classList={{
+            [CSS.fullscreen]: fullscreen(),
+            [CSS.dragging]: drag()
+          }}
+        >
           <h4>{title}</h4>
 
           <div class={CSS.buttons}>

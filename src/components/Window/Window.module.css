@@ -3,9 +3,9 @@
   border: 1px solid rgb(var(--secondary));
   background-color: rgb(var(--primary));
 
+  isolation: isolate;
   position: absolute;
   overflow: hidden;
-  z-index: 0;
 
   .toolbar {
     box-shadow: 0px 1px 5px 0px rgb(var(--secondary) / 0.5);
@@ -13,12 +13,22 @@
 
     flex-flow: row nowrap;
     align-items: center;
-    position: absolute;
-
+    position: relative;
+    
     display: flex;
+    cursor: grab;
+
     height: 25px;
     width: 100%;
     top: 0px;
+
+    &.fullscreen {
+      cursor: default;
+    }
+
+    &.dragging {
+      cursor: grabbing;
+    }
 
     & h4 {
       color: rgb(var(--secondary));

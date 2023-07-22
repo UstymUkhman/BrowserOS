@@ -1,10 +1,8 @@
-import { Browser } from "../src/config";
+import { Config } from "../src/components/Browser/config";
 
-const height = 600.0;
-const width = 800.0;
+const height = 600.0, width = 800.0;
 
 export default {
-  browser: Browser.view(width, height),
-  background: "#222222",
-  width, height
+  width, height, background: "#222222",
+  browser: Config.view(width, height)
 };

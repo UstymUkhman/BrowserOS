@@ -1,9 +1,9 @@
 import { createSignal } from "solid-js";
 import CSS from "./Switcher.module.css";
 import { Emitter } from "@/utils/Events";
-import Sun from "@/assets/icons/sun.svg";
-import Moon from "@/assets/icons/moon.svg";
 import type { SwitcherProps } from "./types";
+import Sun from "@/assets/icons/Taskbar/sun.svg";
+import Moon from "@/assets/icons/Taskbar/moon.svg";
 
 export const Switcher = ({ active }: SwitcherProps) =>
 {
@@ -14,9 +14,9 @@ export const Switcher = ({ active }: SwitcherProps) =>
 
   return (
     <div
-      onClick={onClick}
-      class={CSS.switcher}
       classList={{ [CSS.enabled]: on() }}
+      class={CSS.switcher}
+      onClick={onClick}
     >
       <Sun />
       <Moon />

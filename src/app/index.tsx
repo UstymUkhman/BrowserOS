@@ -1,22 +1,16 @@
 import "./App.css";
 import { onCleanup } from "solid-js";
-import { Emitter } from "@/utils/Events";
+import { Browser } from "@/components/Browser";
 import { Taskbar } from "@/components/Taskbar";
 import { Version } from "@/components/Version";
-import { Browser, browserFeatures } from "@/config";
 import { Background } from "@/components/Background";
+import { type Event, Emitter } from "@/utils/Events";
 
 export const APP = globalThis as Application;
 
 export const App = () =>
 {
-  const onBrowserOpen = () => {
-    APP.electron
-      ? APP.openBrowserView(Browser.url)
-      : window.open(Browser.url, "_blank", browserFeatures());
-  };
-
-  const onThemeUpdate = () => {
+  const onThemeUpdate = (event: Event) => {
     const style = getComputedStyle(document.documentElement);
 
     const secondaryHover = style.getPropertyValue("--secondaryHover");
@@ -32,10 +26,9 @@ export const App = () =>
 
     root.setProperty("--secondary", primary);
     root.setProperty("--primary", secondary);
-  };
 
-  Emitter.add("Browser::Open", onBrowserOpen);
-  Emitter.add("Theme::Update", onThemeUpdate);
+    APP.darkMode = !event.data;
+  };
 
   const onContextMenu = (event: MouseEvent) =>
     event.preventDefault();
@@ -44,14 +37,18 @@ export const App = () =>
     APP.addEventListener("contextmenu", onContextMenu);
 
   onCleanup(() => {
-    Emitter.remove("Browser::Open", onBrowserOpen);
     Emitter.remove("Theme::Update", onThemeUpdate);
   });
+
+  document.documentElement.style.setProperty("--taskbarHeight", "25px");
+  Emitter.add("Theme::Update", onThemeUpdate);
+  APP.darkMode = false;
 
   return (
     <>
       <Background />
       <Taskbar />
+      <Browser />
       {import.meta.env.DEV && <Version />}
     </>
   );

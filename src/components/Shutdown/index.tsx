@@ -1,6 +1,6 @@
 import { APP } from "@/app";
 import CSS from "./Shutdown.module.css";
-import Icon from "@/assets/icons/shutdown.svg";
+import Icon from "@/assets/icons/Taskbar/shutdown.svg";
 
 export const Shutdown = () => (
   <button

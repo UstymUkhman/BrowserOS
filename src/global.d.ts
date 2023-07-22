@@ -9,6 +9,7 @@ declare type Application = Window & typeof globalThis & {
   closeBrowserView: (view?: number) => void;
 
   shutdown: () => void;
+  darkMode: boolean;
   electron: boolean;
 };
 

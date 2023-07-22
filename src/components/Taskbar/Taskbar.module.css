@@ -11,15 +11,15 @@
   backdrop-filter: blur(16px) saturate(180%);
 
   justify-content: space-between;
+  height: var(--taskbarHeight);
   flex-flow: row nowrap;
   align-items: center;
 
   padding: 5px 10px;
   position: fixed;
   display: flex;
-
-  height: 25px;
   width: 100%;
+  z-index: 1;
 
   left: 0;
   top: 0;

@@ -1,0 +1,50 @@
+.window {
+  --buttonsWidth: 44px;
+  border: 1px solid rgb(var(--secondary));
+  background-color: rgb(var(--primary));
+
+  position: absolute;
+  overflow: hidden;
+  z-index: 0;
+
+  .toolbar {
+    box-shadow: 0px 1px 5px 0px rgb(var(--secondary) / 0.5);
+    padding-left: var(--buttonsWidth);
+
+    flex-flow: row nowrap;
+    align-items: center;
+    position: absolute;
+
+    display: flex;
+    height: 25px;
+    width: 100%;
+    top: 0px;
+
+    & h4 {
+      color: rgb(var(--secondary));
+      text-align: center;
+      font-weight: 400;
+      font-size: 16px;
+
+      line-height: 1;
+      max-width: 80%;
+      margin: 0 auto;
+    }
+
+    .buttons {
+      min-width: var(--buttonsWidth);
+      display: inherit;
+      column-gap: 6px;
+
+      padding: 6px;
+      height: 100%;
+      width: auto;
+
+      & > img {
+        cursor: pointer;
+        height: 100%;
+        width: auto;
+      }
+    }
+  }
+}

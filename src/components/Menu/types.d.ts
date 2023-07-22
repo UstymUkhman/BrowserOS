@@ -9,6 +9,7 @@ type MenuItem = {
 };
 
 export type MenuProps = {
+  canHover?: boolean;
   items: MenuItem[]
   origin?: Origin;
 };

@@ -1,10 +1,10 @@
-import type { Rectangle } from "electron";
 import { Browser } from "../src/config";
 
-export default
-{
-  width: 800,
-  height: 600,
+const height = 600.0;
+const width = 800.0;
+
+export default {
+  browser: Browser.view(width, height),
   background: "#222222",
-  browser: Browser.view as Rectangle
+  width, height
 };

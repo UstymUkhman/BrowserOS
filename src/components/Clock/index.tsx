@@ -43,7 +43,7 @@ export const Clock = ({ showSeconds }: ClockProps) =>
       {menu() && (
         <Menu items={[{
           component: <Clock showSeconds />
-        }]} />
+        }]} canHover={false} />
       )}
     </div>
   );

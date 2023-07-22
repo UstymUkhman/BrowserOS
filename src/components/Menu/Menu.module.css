@@ -52,7 +52,28 @@
   }
 
   & li {
+    color: rgb(var(--secondary));
+    font-family: 'Roboto Condensed',
+      sans-serif, system-ui, monospace;
+
     list-style-type: none;
+    text-align: center;
+    font-weight: bold;
+
+    padding: 2px 0px;
+    font-size: 12px;
+    width: 100%;
+
+    &.canHover {
+      cursor: pointer;
+      transition-duration: 0.2s;
+      transition-property: background-color, color;
+
+      &:hover {
+        background-color: rgb(var(--secondary));
+        color: rgb(var(--primaryHover));
+      }
+    }
 
     & > * {
       position: relative;

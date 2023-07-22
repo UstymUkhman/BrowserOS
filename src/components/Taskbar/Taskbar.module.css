@@ -11,7 +11,7 @@
   backdrop-filter: blur(16px) saturate(180%);
 
   justify-content: space-between;
-  flex-flow: row-reverse nowrap;
+  flex-flow: row nowrap;
   align-items: center;
 
   padding: 5px 10px;

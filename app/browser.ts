@@ -14,10 +14,6 @@ export default class Browser
   private readonly openView = this.createView.bind(this);
 
   public constructor (private readonly main: BrowserWindow) {
-    this.crateEvents();
-  }
-
-  private crateEvents (): void {
     ipcMain.on("Open::BrowserView", this.openView);
     ipcMain.on("Resize::BrowserView", this.resizeView);
     ipcMain.on("Close::BrowserView", this.closeView);
@@ -44,12 +40,6 @@ export default class Browser
     this.views[view].setBounds(bounds);
   }
 
-  private removeEvents (): void {
-    ipcMain.off("Open::BrowserView", this.openView);
-    ipcMain.off("Resize::BrowserView", this.resizeView);
-    ipcMain.off("Close::BrowserView", this.closeView);
-  }
-
   private dispose (_?: IpcMainEvent, view = 0): void {
     // https://github.com/electron/electron/pull/23578#issuecomment-742706524
     (this.views[view].webContents as ViewContents).destroy();
@@ -61,7 +51,10 @@ export default class Browser
     for (let view = this.views.length; view--; )
       this.dispose(undefined, view);
 
-    this.removeEvents();
+    ipcMain.off("Open::BrowserView", this.openView);
+    ipcMain.off("Resize::BrowserView", this.resizeView);
+    ipcMain.off("Close::BrowserView", this.closeView);
+
     this.main.setBrowserView(null);
   }
 }

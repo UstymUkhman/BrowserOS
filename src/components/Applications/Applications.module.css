@@ -1,0 +1,30 @@
+.applications {
+  line-height: 1;
+
+  & span {
+    font-family: 'Roboto Condensed',
+      sans-serif, system-ui, monospace;
+
+    color: rgb(var(--secondary));
+    vertical-align: middle;
+
+    transition: color 0.2s;
+    letter-spacing: 0.2px;
+  
+    position: relative;
+    font-weight: bold;
+
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  & menu {
+    max-width: fit-content;
+    margin-left: 0px;
+    min-width: 100px;
+  }
+
+  &:hover span {
+    color: rgb(var(--secondaryHover));
+  }
+}

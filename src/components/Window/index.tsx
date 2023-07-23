@@ -11,6 +11,8 @@ export const Window = (
     width = innerWidth * 0.5 + 2.0,
     y = innerHeight * 0.25 - 1.0,
     x = innerWidth * 0.25 - 1.0,
+    onMaximize = () => void 0,
+    onMinimize = () => void 0,
     onFocus = () => void 0,
     onClose = () => void 0,
     hideBar = false,
@@ -71,12 +73,14 @@ export const Window = (
       setVertical(innerHeight - taskbar);
       setHorizontal(innerWidth);
       setTop(taskbar);
+      onMaximize(id);
       setLeft(0);
     }
 
     else {
       setTop(y);
       setLeft(x);
+      onMinimize(id);
       setVertical(height);
       setHorizontal(width);
     }

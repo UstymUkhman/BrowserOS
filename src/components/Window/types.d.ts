@@ -7,6 +7,8 @@ type ClickEvent = MouseEvent & {
 
 type WindowProps = {
   onFocus?: (event: ClickEvent, window: HTMLElement, id?: WindowId) => unknown;
+  onMaximize?: (id?: WindowId) => unknown;
+  onMinimize?: (id?: WindowId) => unknown;
   onClose?: (id?: WindowId) => unknown;
 
   children?: JSXElement;

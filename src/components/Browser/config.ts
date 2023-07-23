@@ -3,10 +3,10 @@ export const Config = {
   url: "https://www.google.com/",
 
   view: (width = innerWidth, height = innerHeight) => ({
-    height: height * 0.8,
-    width: width * 0.8,
-    y: height * 0.1,
-    x: width * 0.1
+    height: height * 0.8 | 0,
+    width: width * 0.8 | 0,
+    y: height * 0.1 | 0,
+    x: width * 0.1 | 0
   })
 };
 

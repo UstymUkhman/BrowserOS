@@ -1,3 +1,4 @@
+import type { Rectangle } from "electron";
 import { contextBridge, ipcRenderer } from "electron";
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -7,16 +8,16 @@ window.addEventListener("DOMContentLoaded", () => {
   console.info(`Electron : v${process.versions.electron}`);
 });
 
-contextBridge.exposeInMainWorld("resizeBrowserView", (view?: number) =>
-  ipcRenderer.sendSync("Resize::BrowserView", view)
+contextBridge.exposeInMainWorld("resizeBrowserView", (view: number, bounds: Rectangle) =>
+  ipcRenderer.sendSync("Resize::BrowserView", view, bounds)
 );
 
-contextBridge.exposeInMainWorld("closeBrowserView", (view?: number) =>
+contextBridge.exposeInMainWorld("openBrowserView", (url: string, bounds: Rectangle) =>
+  ipcRenderer.sendSync("Open::BrowserView", url, bounds)
+);
+
+contextBridge.exposeInMainWorld("closeBrowserView", (view: number) =>
   ipcRenderer.sendSync("Close::BrowserView", view)
-);
-
-contextBridge.exposeInMainWorld("openBrowserView", (url: string) =>
-  ipcRenderer.sendSync("Open::BrowserView", url)
 );
 
 contextBridge.exposeInMainWorld("electron", true);

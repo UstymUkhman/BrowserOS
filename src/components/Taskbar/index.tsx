@@ -11,7 +11,7 @@ export const Taskbar = () => (
     <Clock />
 
     <div class={CSS.right} classList={{
-      [CSS.shutdown]: APP.electron
+      [CSS.shutdown]: !!APP.electron
     }}>
       <Switcher />
       {APP.electron && <Shutdown />}

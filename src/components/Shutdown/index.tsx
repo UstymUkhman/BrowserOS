@@ -4,7 +4,7 @@ import Icon from "@/assets/icons/Taskbar/shutdown.svg";
 
 export const Shutdown = () => (
   <button
-    onClick={() => APP.shutdown()}
+    onClick={() => APP.electron?.shutdown()}
     class={CSS.shutdown}
   >
     <Icon />

@@ -3,20 +3,18 @@ import CSS from "./Browser.module.css";
 import { Emitter } from "@/utils/Events";
 import { Config, features } from "./config";
 import { Window } from "@/components/Window";
-import { DELTA_UPDATE } from "@/utils/Number";
 import type { WindowId } from "@/components/Window/types";
 import { For, batch, createSignal, onCleanup } from "solid-js";
 import { createWindows, disposeWindow } from "@/components/Window/utils";
 
 export const Browser = (_: object, browserId = 0) =>
 {
+  const views: Record<WindowId, Window> = {};
   const [windows, setWindows] = createWindows([]);
   const [rect, setRect] = createSignal(Config.view());
 
   const [online, setOnline] = createSignal(navigator.onLine);
   const updateConnection = () => setOnline(navigator.onLine);
-
-  const getViewId = (id?: WindowId) => +(id as string).slice(7);
 
   const onFocus = (_: MouseEvent, window: HTMLElement) => {
     windows.forEach(id => {
@@ -34,57 +32,51 @@ export const Browser = (_: object, browserId = 0) =>
 
     const taskbar = +taskbarHeight.slice(0, -2);
 
-    setTimeout(() =>
-      APP.resizeBrowserView(getViewId(id), {
-        height: innerHeight - 27.0,
-        width: innerWidth - 2.0,
-        y: taskbar + 26.0,
-        x: 1.0
-      })
-    , DELTA_UPDATE);
+    APP.electron?.updateBrowser(id as string, {
+      height: Math.min(innerHeight, 600) - taskbar - 26.0,
+      width: Math.min(innerWidth, 800),
+      y: screenTop + taskbar + 26.0,
+      x: screenLeft
+    });
   };
 
   const onMinimize = (id?: WindowId) => {
     const { x, y, width, height } = rect();
 
-    setTimeout(() =>
-      APP.resizeBrowserView(getViewId(id), {
-        height: height - 27.0,
-        width: width - 2.0,
-        y: y + 26.0,
-        x: x + 1.0
-      })
-    , DELTA_UPDATE);
+    APP.electron?.updateBrowser(id as string, {
+      y: y + screenTop + 26.0,
+      height: height - 26.0,
+      x: x + screenLeft,
+      width: width
+    });
   };
 
   const onClose = (id?: WindowId) => {
-    setTimeout(() => APP.closeBrowserView(getViewId(id)), DELTA_UPDATE);
+    if (!id) return console.error(`Window with id "${String(id)}" not found.`);
     setWindows((windows) => disposeWindow(windows, id));
     if (!windows.length) browserId = 0.0;
+    views[id].close();
   };
 
-  const onOpen = () => !APP.electron
-    ? open(Config.url, "_blank", features())
-    : batch(() => {
-      setRect(Config.view());
+  const onOpen = () => {
+    batch(() => {
       const offset = +!!windows.length;
       const { x: u, y: v, width, height } = rect();
 
       const x = u + offset * Config.offset[0];
       const y = v + offset * Config.offset[1];
 
-      setTimeout(() =>
-        APP.openBrowserView(Config.url, {
-          height: height - 27.0,
-          width: width - 2.0,
-          y: y + 26.0,
-          x: x + 1.0
-        })
-      , DELTA_UPDATE);
-
+      const id = `Browser${browserId++}`;
       setRect({ x, y, width, height });
-      setWindows(windows.length, `Browser${browserId++}`);
+      setWindows(windows.length, id);
+
+      views[id] = open(
+        Config.url,
+        APP.electron ? id : "_blank",
+        features()
+      ) as Window;
     });
+  };
 
   Emitter.add("Browser::Open", onOpen);
 

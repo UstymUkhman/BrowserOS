@@ -2,22 +2,16 @@
 /// <reference types="vite/client" />
 /// <reference types="vite-plugin-solid-svg/types" />
 
-/* Electron */ type Rectangle = {
-  height: number;
-  width: number;
-  x: number;
-  y: number;
-};
+type BrowserId = symbol | string | number;
+import type { Rectangle } from "electron";
 
 declare type Application = Window & typeof globalThis & {
-  // Browser View Events:
-  openBrowserView: (url: string, bounds: Rectangle) => void;
-  resizeBrowserView: (view: number, bounds: Rectangle) => void;
-  closeBrowserView: (view: number) => void;
-
-  shutdown: () => void;
   darkMode: boolean;
-  electron: boolean;
+
+  electron?: {
+    updateBrowser: (id: BrowserId, rect: Rectangle) => void;
+    shutdown: () => void;
+  };
 };
 
 declare const VERSION: string;

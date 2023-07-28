@@ -13,6 +13,7 @@ pids
 
 dist
 build/*
+filesystem
 node_modules
 public/assets/*
 

@@ -8,20 +8,9 @@ window.addEventListener("DOMContentLoaded", () => {
   console.info(`Electron : v${process.versions.electron}`);
 });
 
-contextBridge.exposeInMainWorld("resizeBrowserView", (view: number, bounds: Rectangle) =>
-  ipcRenderer.sendSync("Resize::BrowserView", view, bounds)
-);
+contextBridge.exposeInMainWorld("electron", {
+  updateBrowser: (id: string, rect: Rectangle) =>
+    ipcRenderer.send("Browser::Update", id, rect),
 
-contextBridge.exposeInMainWorld("openBrowserView", (url: string, bounds: Rectangle) =>
-  ipcRenderer.sendSync("Open::BrowserView", url, bounds)
-);
-
-contextBridge.exposeInMainWorld("closeBrowserView", (view: number) =>
-  ipcRenderer.sendSync("Close::BrowserView", view)
-);
-
-contextBridge.exposeInMainWorld("electron", true);
-
-contextBridge.exposeInMainWorld("shutdown", () =>
-  ipcRenderer.sendSync("shutdown")
-);
+  shutdown: () => ipcRenderer.sendSync("OS::Shutdown")
+});

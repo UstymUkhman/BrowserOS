@@ -40,7 +40,6 @@ export const App = () =>
     Emitter.remove("Theme::Update", onThemeUpdate);
   });
 
-  document.documentElement.style.setProperty("--taskbarHeight", "25px");
   Emitter.add("Theme::Update", onThemeUpdate);
   OS.darkMode = false;
 

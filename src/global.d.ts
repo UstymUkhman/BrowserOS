@@ -8,15 +8,16 @@ declare type System = Window & typeof globalThis & {
   Electron?: {
     shutdown: () => void;
     updateBrowser: (
-      id: string,
-      rect: Partial<{
-        height: number;
-        width: number;
-        y: number;
-        x: number;
-      }>
+      id: string, rect: Partial<Rectangle>
     ) => void;
   };
 };
 
 declare const VERSION: string;
+
+declare type Rectangle = {
+  height: number;
+  width: number;
+  y: number;
+  x: number;
+};

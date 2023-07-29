@@ -3,18 +3,16 @@ import CSS from "./Window.module.css";
 import Icon from "@/assets/icons/Window";
 import { createSignal, onCleanup } from "solid-js";
 import { type Event, Emitter } from "@/utils/Events";
+import { MinRect, MaxRect, innerRect } from "./utils";
 
 export const Window = (
   {
-    height = innerHeight * 0.5 + 2.0,
-    width = innerWidth * 0.5 + 2.0,
-    y = innerHeight * 0.25 - 1.0,
-    x = innerWidth * 0.25 - 1.0,
     onMaximize = () => void 0,
     onMinimize = () => void 0,
     onFocus = () => void 0,
     onClose = () => void 0,
     hideBar = false,
+    rect = MinRect,
     children, id,
     title = ""
   }: WindowProps
@@ -22,15 +20,16 @@ export const Window = (
   let window: unknown;
 
   const mouse = { x: 0.0, y: 0.0 };
-  const [top, setTop] = createSignal(y);
-  const [left, setLeft] = createSignal(x);
 
+  const [top, setTop] = createSignal(rect.y);
   const [drag, setDrag] = createSignal(false);
-  const [dark, setDark] = createSignal(OS.darkMode);
-  const [vertical, setVertical] = createSignal(height);
+  const [left, setLeft] = createSignal(rect.x);
 
-  const [horizontal, setHorizontal] = createSignal(width);
+  const [dark, setDark] = createSignal(OS.darkMode);
   const [fullscreen, setFullscreen] = createSignal(false);
+
+  const [vertical, setVertical] = createSignal(rect.height);
+  const [horizontal, setHorizontal] = createSignal(rect.width);
   const onThemeUpdate = (event: Event) => setDark(!event.data);
 
   const onWindowClick = (event: ClickEvent) =>
@@ -71,28 +70,21 @@ export const Window = (
     setFullscreen(!fullscreen());
 
     if (fullscreen()) {
-      const taskbar = +taskbarHeight.slice(0, -2);
-      setVertical(innerHeight - taskbar);
-      setHorizontal(innerWidth);
-      setTop(taskbar);
-      onMaximize(id);
-      setLeft(0);
+      onMaximize(innerRect(true), id);
+      setHorizontal(MaxRect.width);
+      setVertical(MaxRect.height);
+      setLeft(MaxRect.x);
+      setTop(MaxRect.y);
     }
 
     else {
-      setTop(y);
-      setLeft(x);
-      onMinimize(id);
-      setVertical(height);
-      setHorizontal(width);
+      setTop(rect.y);
+      setLeft(rect.x);
+      setVertical(rect.height);
+      setHorizontal(rect.width);
+      onMinimize(innerRect(), id);
     }
   };
-
-  const taskbarHeight =
-    getComputedStyle(document.documentElement)
-    .getPropertyValue("--taskbarHeight");
-
-  Emitter.add("Theme::Update", onThemeUpdate);
 
   onCleanup(() => Emitter.remove("Theme::Update", onThemeUpdate));
 

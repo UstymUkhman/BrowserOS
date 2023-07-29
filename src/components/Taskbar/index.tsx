@@ -1,4 +1,4 @@
-import { APP } from "@/app";
+import { OS } from "@/app";
 import CSS from "./Taskbar.module.css";
 import { Clock } from "@/components/Clock";
 import { Shutdown } from "@/components/Shutdown";
@@ -11,10 +11,10 @@ export const Taskbar = () => (
     <Clock />
 
     <div class={CSS.right} classList={{
-      [CSS.shutdown]: !!APP.electron
+      [CSS.shutdown]: !!OS.Electron
     }}>
       <Switcher />
-      {APP.electron && <Shutdown />}
+      {OS.Electron && <Shutdown />}
     </div>
   </nav>
 );

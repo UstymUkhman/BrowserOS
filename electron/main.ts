@@ -34,7 +34,6 @@ app.on("ready", () => {
 
 app.whenReady().then(() => {
   if (PRODUCTION) return;
-
   const height = 600.0;
   const width = 800.0;
 

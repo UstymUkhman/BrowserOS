@@ -1,13 +1,11 @@
 import type { SetStoreFunction, Store } from "solid-js/store";
-import type { WindowId } from "@/components/Window/types";
 import { createStore } from "solid-js/store";
 
-export const createWindows = (ids: WindowId[])
-  : [Store<WindowId[]>, SetStoreFunction<WindowId[]>] =>
-    createStore<WindowId[]>(ids);
+export const createWindows = (ids: string[])
+  : [Store<string[]>, SetStoreFunction<string[]>] =>
+    createStore<string[]>(ids);
 
-export function disposeWindow(windows: WindowId[], id: WindowId): WindowId[]
-{
+export function disposeWindow(windows: string[], id: string): string[] {
   const index = windows.findIndex((window) => window === id);
 
   if (index > -1)

@@ -1,9 +1,8 @@
-import { APP } from "@/app";
+import { OS } from "@/app";
 import CSS from "./Window.module.css";
 import Icon from "@/assets/icons/Window";
 import { createSignal, onCleanup } from "solid-js";
 import { type Event, Emitter } from "@/utils/Events";
-import type { WindowProps, ClickEvent } from "./types";
 
 export const Window = (
   {
@@ -27,7 +26,7 @@ export const Window = (
   const [left, setLeft] = createSignal(x);
 
   const [drag, setDrag] = createSignal(false);
-  const [dark, setDark] = createSignal(APP.darkMode);
+  const [dark, setDark] = createSignal(OS.darkMode);
   const [vertical, setVertical] = createSignal(height);
 
   const [horizontal, setHorizontal] = createSignal(width);

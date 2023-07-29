@@ -1,15 +1,14 @@
-import { APP } from "@/app";
+import { OS } from "@/app";
 import CSS from "./Browser.module.css";
 import { Emitter } from "@/utils/Events";
 import { Config, features } from "./config";
 import { Window } from "@/components/Window";
-import type { WindowId } from "@/components/Window/types";
 import { For, batch, createSignal, onCleanup } from "solid-js";
 import { createWindows, disposeWindow } from "@/components/Window/utils";
 
 export const Browser = (_: object, browserId = 0) =>
 {
-  const views: Record<WindowId, Window> = {};
+  const views: Record<string, Window> = {};
   const [windows, setWindows] = createWindows([]);
   const [rect, setRect] = createSignal(Config.view());
 
@@ -25,14 +24,14 @@ export const Browser = (_: object, browserId = 0) =>
     window.style.zIndex = "1";
   };
 
-  const onMaximize = (id?: WindowId) => {
+  const onMaximize = (id?: string) => {
     const taskbarHeight =
       getComputedStyle(document.documentElement)
       .getPropertyValue("--taskbarHeight");
 
     const taskbar = +taskbarHeight.slice(0, -2);
 
-    APP.electron?.updateBrowser(id as string, {
+    OS.Electron?.updateBrowser(id as string, {
       height: Math.min(innerHeight, 600) - taskbar - 26.0,
       width: Math.min(innerWidth, 800),
       y: screenTop + taskbar + 26.0,
@@ -40,10 +39,10 @@ export const Browser = (_: object, browserId = 0) =>
     });
   };
 
-  const onMinimize = (id?: WindowId) => {
+  const onMinimize = (id?: string) => {
     const { x, y, width, height } = rect();
 
-    APP.electron?.updateBrowser(id as string, {
+    OS.Electron?.updateBrowser(id as string, {
       y: y + screenTop + 26.0,
       height: height - 26.0,
       x: x + screenLeft,
@@ -51,7 +50,7 @@ export const Browser = (_: object, browserId = 0) =>
     });
   };
 
-  const onClose = (id?: WindowId) => {
+  const onClose = (id?: string) => {
     if (!id) return console.error(`Window with id "${String(id)}" not found.`);
     setWindows((windows) => disposeWindow(windows, id));
     if (!windows.length) browserId = 0.0;
@@ -72,7 +71,7 @@ export const Browser = (_: object, browserId = 0) =>
 
       views[id] = open(
         Config.url,
-        APP.electron ? id : "_blank",
+        OS.Electron ? id : "_blank",
         features()
       ) as Window;
     });

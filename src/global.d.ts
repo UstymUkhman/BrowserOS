@@ -2,15 +2,20 @@
 /// <reference types="vite/client" />
 /// <reference types="vite-plugin-solid-svg/types" />
 
-type BrowserId = symbol | string | number;
-import type { Rectangle } from "electron";
-
-declare type Application = Window & typeof globalThis & {
+declare type System = Window & typeof globalThis & {
   darkMode: boolean;
 
-  electron?: {
-    updateBrowser: (id: BrowserId, rect: Rectangle) => void;
+  Electron?: {
     shutdown: () => void;
+    updateBrowser: (
+      id: string,
+      rect: Partial<{
+        height: number;
+        width: number;
+        y: number;
+        x: number;
+      }>
+    ) => void;
   };
 };
 

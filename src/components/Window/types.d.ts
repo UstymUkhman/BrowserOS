@@ -1,20 +1,18 @@
-export type WindowId = symbol | string | number;
-
 type ClickEvent = MouseEvent & {
   currentTarget: HTMLElement;
   target: Element;
 };
 
 type WindowProps = {
-  onFocus?: (event: ClickEvent, window: HTMLElement, id?: WindowId) => unknown;
-  onMaximize?: (id?: WindowId) => unknown;
-  onMinimize?: (id?: WindowId) => unknown;
-  onClose?: (id?: WindowId) => unknown;
+  onFocus?: (event: ClickEvent, window: HTMLElement, id?: string) => unknown;
+  onMaximize?: (id?: string) => unknown;
+  onMinimize?: (id?: string) => unknown;
+  onClose?: (id?: string) => unknown;
 
   children?: JSXElement;
   hideBar?: boolean;
   title?: string;
-  id?: WindowId;
+  id?: string;
 
   x?: number;
   y?: number;

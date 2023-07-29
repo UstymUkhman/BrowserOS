@@ -6,7 +6,7 @@ import { Version } from "@/components/Version";
 import { Background } from "@/components/Background";
 import { type Event, Emitter } from "@/utils/Events";
 
-export const APP = globalThis as Application;
+export const OS = globalThis as System;
 
 export const App = () =>
 {
@@ -27,14 +27,14 @@ export const App = () =>
     root.setProperty("--secondary", primary);
     root.setProperty("--primary", secondary);
 
-    APP.darkMode = !event.data;
+    OS.darkMode = !event.data;
   };
 
   const onContextMenu = (event: MouseEvent) =>
     event.preventDefault();
 
   !import.meta.env.DEV &&
-    APP.addEventListener("contextmenu", onContextMenu);
+    OS.addEventListener("contextmenu", onContextMenu);
 
   onCleanup(() => {
     Emitter.remove("Theme::Update", onThemeUpdate);
@@ -42,7 +42,7 @@ export const App = () =>
 
   document.documentElement.style.setProperty("--taskbarHeight", "25px");
   Emitter.add("Theme::Update", onThemeUpdate);
-  APP.darkMode = false;
+  OS.darkMode = false;
 
   return (
     <>

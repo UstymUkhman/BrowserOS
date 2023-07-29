@@ -42,10 +42,10 @@
     "lint:js": "eslint src/**/*.{ts,tsx,js,jsx}",
     "start:app": "pnpm build:app && pnpm build:dev",
     "postinstall": "electron-builder install-app-deps",
-    "build:app": "pnpm build:web && tsc --project app",
-    "build:prod": "npx electron-builder --config app/builder.yml",
-    "build:test": "npx electron-builder --dir --config app/builder.yml",
-    "build:dev": "set ENVIRONMENT=development&& electron build/main.js"
+    "build:app": "pnpm build:web && tsc --project electron",
+    "build:prod": "npx electron-builder --config electron/builder.yml",
+    "build:dev": "set ENVIRONMENT=development&& electron build/main.js",
+    "build:test": "npx electron-builder --dir --config electron/builder.yml"
   },
   "dependencies": {
     "solid-js": "^1.7.6"

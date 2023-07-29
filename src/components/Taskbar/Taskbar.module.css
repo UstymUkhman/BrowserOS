@@ -23,18 +23,18 @@
 
   left: 0;
   top: 0;
+}
 
-  & .right {
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
+.taskbar .right {
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
 
-    display: flex;
-    height: 100%;
-    width: auto;
+  display: flex;
+  height: 100%;
+  width: auto;
+}
 
-    &.shutdown {
-      min-width: 60px;
-    }
-  }
+.taskbar .right.shutdown {
+  min-width: 60px;
 }

@@ -4,13 +4,13 @@
 
   height: 16px;
   width: 16px;
+}
 
-  & svg {
-    fill: rgb(var(--secondary));
-    transition: fill 0.2s;
-  }
+.shutdown svg {
+  transition: fill 0.2s;
+  fill: rgb(var(--secondary));
+}
 
-  &:hover svg {
-    fill: rgb(var(--secondaryHover));
-  }
+.shutdown:hover svg {
+  fill: rgb(var(--secondaryHover));
 }

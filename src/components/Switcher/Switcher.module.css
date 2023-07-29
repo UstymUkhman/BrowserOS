@@ -10,61 +10,61 @@
 
   height: 16px;
   width: 34px;
+}
 
-  & svg:first-child {
-    stroke: rgb(var(--secondaryHover));
-    color: rgb(var(--secondaryHover));
+.switcher::after {
+  transition: transform 0.25s ease-in-out, background-color 0.2s;
+  background-color: rgb(var(--secondary));
 
-    position: absolute;
-    height: 15px;
-  }
+  border-radius: 50%;
+  position: absolute;
 
-  & svg:last-child {
-    stroke: rgb(var(--primaryHover));
-    color: rgb(var(--primaryHover));
+  height: 16px;
+  width: 16px;
 
-    position: absolute;
-    height: 14px;
-    right: 0;
-  }
+  content: "";
+  top: -1px;
+}
 
-  &::after {
-    transition: transform 0.25s ease-in-out, background-color 0.2s;
-    background-color: rgb(var(--secondary));
+.switcher.enabled {
+  background-color: rgb(var(--primary));
+}
 
-    border-radius: 50%;
-    position: absolute;
+.switcher.enabled::after {
+  background-color: rgb(var(--secondary));
+  transform: translateX(18px);
+}
 
-    height: 16px;
-    width: 16px;
+.switcher svg:first-child {
+  stroke: rgb(var(--secondaryHover));
+  color: rgb(var(--secondaryHover));
 
-    content: "";
-    top: -1px;
-  }
+  position: absolute;
+  height: 15px;
+}
 
-  &.enabled {
-    background-color: rgb(var(--primary));
+.switcher svg:last-child {
+  stroke: rgb(var(--primaryHover));
+  color: rgb(var(--primaryHover));
 
-    &::after {
-      background-color: rgb(var(--secondary));
-      transform: translateX(18px);
-    }
-  }
+  position: absolute;
+  height: 14px;
+  right: 0;
+}
 
-  &:hover {
-    border-color: rgb(var(--secondaryHover));
-    background-color: rgb(var(--primaryHover));
+.switcher:hover {
+  border-color: rgb(var(--secondaryHover));
+  background-color: rgb(var(--primaryHover));
+}
 
-    &::after {
-      background-color: rgb(var(--secondaryHover));
-    }
+.switcher:hover::after {
+  background-color: rgb(var(--secondaryHover));
+}
 
-    & svg:first-child {
-      stroke: rgb(var(--secondaryHover));
-    }
-  
-    & svg:last-child {
-      fill: rgb(var(--secondaryHover));
-    }
-  }
+.switcher:hover svg:first-child {
+  stroke: rgb(var(--secondaryHover));
+}
+
+.switcher:hover svg:last-child {
+  fill: rgb(var(--secondaryHover));
 }

@@ -10,21 +10,21 @@
 
   right: 0;
   left: 0;
+}
 
-  & time {
-    font-family: 'Roboto Condensed',
-      sans-serif, system-ui, monospace;
+.clock time {
+  font-family: 'Roboto Condensed',
+    sans-serif, system-ui, monospace;
 
-    color: rgb(var(--secondary));
-    vertical-align: middle;
-    transition: color 0.2s;
-  
-    position: relative;
-    font-weight: bold;
-    font-size: 12px;
-  }
+  color: rgb(var(--secondary));
+  vertical-align: middle;
+  transition: color 0.2s;
 
-  &:hover time {
-    color: rgb(var(--secondaryHover));
-  }
+  position: relative;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.clock:hover time {
+  color: rgb(var(--secondaryHover));
 }

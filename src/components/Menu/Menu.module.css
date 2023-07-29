@@ -18,65 +18,65 @@
 
   right: 0px;
   left: 0px;
+}
 
-  &::after,
-  &::before {
-    border-bottom: 12px solid rgb(var(--secondary));
-    border-right: 8px solid transparent;
-    border-left: 8px solid transparent;
+.menu::after,
+.menu::before {
+  border-bottom: 12px solid rgb(var(--secondary));
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
 
-    transform: translateY(-100%);
-    position: absolute;
-    content: "";
+  transform: translateY(-100%);
+  position: absolute;
+  content: "";
 
-    height: 0px;
-    width: 0px;
-    top: 0px;
-  }
+  height: 0px;
+  width: 0px;
+  top: 0px;
+}
 
-  &::after {
-    border-bottom-color: rgb(var(--primary));
-    transform: translateY(-85%);
-  }
+.menu::after {
+  border-bottom-color: rgb(var(--primary));
+  transform: translateY(-85%);
+}
 
-  &.right::after,
-  &.right::before {
-    right: 5px;
-    left: auto;
-  }
+.menu.right::after,
+.menu.right::before {
+  right: 5px;
+  left: auto;
+}
 
-  &.left::after,
-  &.left::before {
-    right: auto;
-    left: 5px;
-  }
+.menu.left::after,
+.menu.left::before {
+  right: auto;
+  left: 5px;
+}
 
-  & li {
-    color: rgb(var(--secondary));
-    font-family: 'Roboto Condensed',
-      sans-serif, system-ui, monospace;
+.menu li {
+  color: rgb(var(--secondary));
+  font-family: 'Roboto Condensed',
+    sans-serif, system-ui, monospace;
 
-    list-style-type: none;
-    text-align: center;
-    font-weight: bold;
+  list-style-type: none;
+  text-align: center;
+  font-weight: bold;
 
-    padding: 2px 0px;
-    font-size: 12px;
-    width: 100%;
+  padding: 2px 0px;
+  font-size: 12px;
+  width: 100%;
+}
 
-    &.canHover {
-      cursor: pointer;
-      transition-duration: 0.2s;
-      transition-property: background-color, color;
+.menu li > * {
+  position: relative;
+}
 
-      &:hover {
-        background-color: rgb(var(--secondary));
-        color: rgb(var(--primaryHover));
-      }
-    }
+.menu li.canHover {
+  cursor: pointer;
+  transition-duration: 0.2s;
+  transition-property: background-color, color;
+}
 
-    & > * {
-      position: relative;
-    }
-  }
+.menu li.canHover:hover {
+  background-color: rgb(var(--secondary));
+  color: rgb(var(--primaryHover));
 }

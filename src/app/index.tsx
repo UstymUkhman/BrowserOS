@@ -10,6 +10,8 @@ export const OS = globalThis as System;
 
 export const App = () =>
 {
+  const dev = import.meta.env.DEV || APP_DEV;
+
   const onThemeUpdate = (event: Event) => {
     const style = getComputedStyle(document.documentElement);
 
@@ -30,15 +32,9 @@ export const App = () =>
     OS.darkMode = !event.data;
   };
 
-  const onContextMenu = (event: MouseEvent) =>
-    event.preventDefault();
-
-  !import.meta.env.DEV &&
-    OS.addEventListener("contextmenu", onContextMenu);
-
-  onCleanup(() => {
-    Emitter.remove("Theme::Update", onThemeUpdate);
-  });
+  const onContextMenu = (event: MouseEvent) => event.preventDefault();
+  onCleanup(() => Emitter.remove("Theme::Update", onThemeUpdate));
+  !dev && OS.addEventListener("contextmenu", onContextMenu);
 
   Emitter.add("Theme::Update", onThemeUpdate);
   OS.darkMode = false;
@@ -48,7 +44,7 @@ export const App = () =>
       <Background />
       <Taskbar />
       <Browser />
-      {import.meta.env.DEV && <Version />}
+      {dev && <Version />}
     </>
   );
 };

@@ -4,8 +4,7 @@ import { Menu } from "@/components/Menu";
 import type { ClockProps } from "./types";
 import { createSignal, onCleanup } from "solid-js";
 
-export const Clock = ({ showSeconds }: ClockProps) =>
-{
+export const Clock = ({ showSeconds, showDate }: ClockProps) => {
   const date = new Date();
 
   const [time, setTime] = createSignal("");
@@ -38,11 +37,12 @@ export const Clock = ({ showSeconds }: ClockProps) =>
 
   return (
     <div class={CSS.clock} onClick={toggleMenu}>
+      {showDate && <span>{date.toDateString()},</span>}
       <time>{time()}</time>
 
       {menu() && (
         <Menu items={[{
-          component: <Clock showSeconds />
+          component: <Clock showSeconds showDate />
         }]} canHover={false} />
       )}
     </div>

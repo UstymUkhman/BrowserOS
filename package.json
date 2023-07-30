@@ -40,9 +40,9 @@
     "build:web": "vite build",
     "lint:css": "stylelint **/*.css",
     "lint:js": "eslint src/**/*.{ts,tsx,js,jsx}",
-    "start:app": "pnpm build:app && pnpm build:dev",
     "postinstall": "electron-builder install-app-deps",
-    "build:app": "pnpm build:web && tsc --project electron",
+    "build:app": "tsc --project electron && pnpm build:web",
+    "start:app": "pnpm build:app -m development && pnpm build:dev",
     "build:prod": "npx electron-builder --config electron/builder.yml",
     "build:dev": "set ENVIRONMENT=development&& electron build/main.js",
     "build:test": "npx electron-builder --dir --config electron/builder.yml"

@@ -13,6 +13,7 @@ declare type System = Window & typeof globalThis & {
   };
 };
 
+declare const APP_DEV: boolean;
 declare const VERSION: string;
 
 declare type Rectangle = {

@@ -86,6 +86,8 @@ export const Window = (
     }
   };
 
+  Emitter.add("Theme::Update", onThemeUpdate);
+
   onCleanup(() => Emitter.remove("Theme::Update", onThemeUpdate));
 
   return (

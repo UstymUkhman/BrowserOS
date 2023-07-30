@@ -33,6 +33,6 @@
   opacity: 0;
 }
 
-.background.light::after {
+.background.dark::after {
   opacity: 1;
 }

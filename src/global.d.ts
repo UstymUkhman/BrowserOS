@@ -2,13 +2,13 @@
 /// <reference types="vite/client" />
 /// <reference types="vite-plugin-solid-svg/types" />
 
-declare type System = Window & typeof globalThis & {
-  darkMode: boolean;
-
+declare type System = Window & typeof globalThis &
+{
   Electron?: {
     shutdown: () => void;
     updateBrowser: (
-      id: string, rect: Partial<Rectangle>
+      id: string,
+      rect: Partial<Rectangle>
     ) => void;
   };
 };

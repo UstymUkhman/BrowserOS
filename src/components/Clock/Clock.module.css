@@ -12,6 +12,12 @@
   left: 0;
 }
 
+.clock span {
+  color: rgb(var(--secondary));
+  transition: color 0.2s;
+  display: block;
+}
+
 .clock time {
   font-family: 'Roboto Condensed',
     sans-serif, system-ui, monospace;
@@ -25,6 +31,7 @@
   font-size: 12px;
 }
 
+.clock:hover span,
 .clock:hover time {
   color: rgb(var(--secondaryHover));
 }

@@ -1,9 +1,9 @@
-import { OS } from "@/app";
+import { useTheme } from "@/theme";
 import CSS from "./Window.module.css";
+import { createSignal } from "solid-js";
 import Icon from "@/assets/icons/Window";
-import { createSignal, onCleanup } from "solid-js";
-import { type Event, Emitter } from "@/utils/Events";
 import { MinRect, MaxRect, innerRect } from "./utils";
+import type { WindowProps, ClickEvent } from "./types";
 
 export const Window = (
   {
@@ -18,19 +18,16 @@ export const Window = (
   }: WindowProps
 ) => {
   let window: unknown;
-
+  const [theme] = useTheme();
   const mouse = { x: 0.0, y: 0.0 };
 
   const [top, setTop] = createSignal(rect.y);
   const [drag, setDrag] = createSignal(false);
   const [left, setLeft] = createSignal(rect.x);
 
-  const [dark, setDark] = createSignal(OS.darkMode);
   const [fullscreen, setFullscreen] = createSignal(false);
-
   const [vertical, setVertical] = createSignal(rect.height);
   const [horizontal, setHorizontal] = createSignal(rect.width);
-  const onThemeUpdate = (event: Event) => setDark(!event.data);
 
   const onWindowClick = (event: ClickEvent) =>
     onFocus(event, window as HTMLElement, id);
@@ -86,10 +83,6 @@ export const Window = (
     }
   };
 
-  Emitter.add("Theme::Update", onThemeUpdate);
-
-  onCleanup(() => Emitter.remove("Theme::Update", onThemeUpdate));
-
   return (
     <aside
       id={String(id)}
@@ -121,13 +114,13 @@ export const Window = (
               alt={fullscreen() ? "Minimize" : "Maximize"}
               onclick={toggleFullscreen}
               src={fullscreen()
-                ? dark() ? Icon.light.minimize : Icon.dark.minimize
-                : dark() ? Icon.light.maximize : Icon.dark.maximize
+                ? theme.dark ? Icon.light.minimize : Icon.dark.minimize
+                : theme.dark ? Icon.light.maximize : Icon.dark.maximize
               }
             />
 
             <img
-              src={dark() ? Icon.light.close : Icon.dark.close}
+              src={theme.dark ? Icon.light.close : Icon.dark.close}
               onclick={close}
               alt="Close"
             />

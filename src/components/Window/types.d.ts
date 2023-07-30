@@ -1,9 +1,11 @@
-type ClickEvent = MouseEvent & {
+import type { JSXElement } from "solid-js";
+
+export type ClickEvent = MouseEvent & {
   currentTarget: HTMLElement;
   target: Element;
 };
 
-type WindowProps = {
+export type WindowProps = {
   onFocus?: (event: ClickEvent, window: HTMLElement, id?: string) => unknown;
   onMaximize?: (innerRect: Rectangle, id?: string) => unknown;
   onMinimize?: (innerRect: Rectangle, id?: string) => unknown;

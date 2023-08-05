@@ -15,6 +15,41 @@ export const Browser = (_: object, browserId = 0) =>
   const [online, setOnline] = createSignal(navigator.onLine);
   const updateConnection = () => setOnline(navigator.onLine);
 
+  const onClick = (window: HTMLElement, id?: string) => {
+    OS.Electron?.showBrowser(id as string);
+    focus(window);
+  };
+
+  const onFocus = (window: HTMLElement, id?: string) => {
+    OS.Electron?.hideBrowser(id as string);
+    focus(window);
+  };
+
+  const onMaximize = (rect: Rectangle, id?: string) =>
+    OS.Electron?.updateBrowser(id as string, screenRect(rect));
+
+  const onMinimize = (rect: Rectangle, id?: string) =>
+    OS.Electron?.updateBrowser(id as string, screenRect(rect));
+
+  const onBlur = (rect: Rectangle, id?: string) =>
+    OS.Electron?.updateBrowser(id as string, screenRect(rect));
+
+  const focus = (window: HTMLElement) => {
+    windows.forEach(id => {
+      const window = document.getElementById(String(id));
+      if (window) window.style.zIndex = "";
+    });
+
+    window.style.zIndex = "1";
+  };
+
+  const onClose = (id?: string) => {
+    if (!id) return console.error(`Window with id "${String(id)}" not found.`);
+    setWindows((windows) => disposeWindow(windows, id));
+    if (!windows.length) browserId = 0.0;
+    views[id].close();
+  };
+
   const onOpen = () => !OS.Electron
     ? open(url, "_blank", features()) : batch(() => {
       // const offset = +!!windows.length;
@@ -29,28 +64,6 @@ export const Browser = (_: object, browserId = 0) =>
 
       views[id] = open(url, id, features()) as Window;
     });
-
-  const onFocus = (_: MouseEvent, window: HTMLElement) => {
-    windows.forEach(id => {
-      const window = document.getElementById(String(id));
-      if (window) window.style.zIndex = "";
-    });
-
-    window.style.zIndex = "1";
-  };
-
-  const onMaximize = (rect: Rectangle, id?: string) =>
-    OS.Electron?.updateBrowser(id as string, screenRect(rect));
-
-  const onMinimize = (rect: Rectangle, id?: string) =>
-    OS.Electron?.updateBrowser(id as string, screenRect(rect));
-
-  const onClose = (id?: string) => {
-    if (!id) return console.error(`Window with id "${String(id)}" not found.`);
-    setWindows((windows) => disposeWindow(windows, id));
-    if (!windows.length) browserId = 0.0;
-    views[id].close();
-  };
 
   Emitter.add("Browser::Open", onOpen);
 
@@ -72,8 +85,10 @@ export const Browser = (_: object, browserId = 0) =>
         <Window
           onMaximize={onMaximize}
           onMinimize={onMinimize}
-          onFocus={onFocus}
+          onClick={onClick}
           onClose={onClose}
+          onFocus={onFocus}
+          onBlur={onBlur}
           title="Browser"
           id={window}
         >

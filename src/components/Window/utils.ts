@@ -16,8 +16,8 @@ export function disposeWindow(windows: string[], id: string): string[] {
   return windows;
 }
 
-export const innerRect = (fullscreen = false): Rectangle => {
-  const rect = { ...(fullscreen ? MaxRect : MinRect) };
+export const innerRect = (fullscreen = false, rect?: Rectangle): Rectangle => {
+  rect ??= { ...(fullscreen ? MaxRect : MinRect) };
 
   rect.height -= 26.0;
   rect.width -= 2.0;

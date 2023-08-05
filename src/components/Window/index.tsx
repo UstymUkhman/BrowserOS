@@ -9,8 +9,10 @@ export const Window = (
   {
     onMaximize = () => void 0,
     onMinimize = () => void 0,
-    onFocus = () => void 0,
+    onClick = () => void 0,
     onClose = () => void 0,
+    onFocus = () => void 0,
+    onBlur = () => void 0,
     hideBar = false,
     rect = MinRect,
     children, id,
@@ -29,11 +31,8 @@ export const Window = (
   const [vertical, setVertical] = createSignal(rect.height);
   const [horizontal, setHorizontal] = createSignal(rect.width);
 
-  const onWindowClick = (event: ClickEvent) =>
-    onFocus(event, window as HTMLElement, id);
-
   const dragStart = (event: ClickEvent) => {
-    onWindowClick(event);
+    onFocus(window as HTMLElement, id);
     if (fullscreen()) return;
 
     mouse.x = event.clientX;
@@ -56,9 +55,23 @@ export const Window = (
     setTop(top() + y);
   };
 
-  const dragStop = () => setDrag(false);
+  const dragStop = () => {
+    onBlur(innerRect(false, {
+      width: horizontal(),
+      height: vertical(),
+      x: left(),
+      y: top()
+    }), id);
 
-  const close = (event: MouseEvent) => {
+    setDrag(false);
+  };
+
+  const click = (event: ClickEvent) => {
+    event.stopPropagation();
+    onClick(window as HTMLElement, id);
+  };
+
+  const close = (event: ClickEvent) => {
     event.stopPropagation();
     onClose(id);
   };
@@ -86,8 +99,8 @@ export const Window = (
   return (
     <aside
       id={String(id)}
+      onclick={click}
       class={CSS.window}
-      onclick={onWindowClick}
       ref={window as HTMLElement}
       style={{
         transform: `translate(${left()}px, ${top()}px)`,

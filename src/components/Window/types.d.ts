@@ -6,9 +6,13 @@ export type ClickEvent = MouseEvent & {
 };
 
 export type WindowProps = {
-  onFocus?: (event: ClickEvent, window: HTMLElement, id?: string) => unknown;
-  onMaximize?: (innerRect: Rectangle, id?: string) => unknown;
   onMinimize?: (innerRect: Rectangle, id?: string) => unknown;
+  onMaximize?: (innerRect: Rectangle, id?: string) => unknown;
+
+  onFocus?: (window: HTMLElement, id?: string) => unknown;
+  onBlur?: (innerRect: Rectangle, id?: string) => unknown;
+
+  onClick?: (window: HTMLElement, id?: string) => unknown;
   onClose?: (id?: string) => unknown;
 
   children?: JSXElement;

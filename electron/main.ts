@@ -1,16 +1,20 @@
+import type { IpcMainEvent, Rectangle /*, Event */ } from "electron";
 import { BrowserWindow, app, screen, ipcMain } from "electron";
 const PRODUCTION = process.env.ENVIRONMENT !== "development";
-import type { IpcMainEvent, Rectangle } from "electron";
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "true";
 delete process.env.ELECTRON_ENABLE_SECURITY_WARNINGS;
 
-type BrowserWindows = (BrowserWindow & {
-  frameName: string;
-})[];
-
 let window: BrowserWindow | null = null;
 import { join } from "path";
+
+type CustomBrowser = BrowserWindow & {
+  frameName: string;
+};
+
+// type BrowserEvent = Event & {
+//   sender: CustomBrowser;
+// };
 
 app.on("ready", () => {
   if (window !== null) return;
@@ -74,6 +78,13 @@ app.on("web-contents-created", (_, contents) =>
         modal: false
       })
     );
+
+    // event.newGuest.on("focus", (event: BrowserEvent) => {
+    //   console.log("Focus: ", event);
+    // });
+
+    event.newGuest.moveTop();
+    event.newGuest.focus();
   })
 );
 
@@ -83,8 +94,37 @@ app.on("window-all-closed", () =>
 
 ipcMain.on("OS::Shutdown", () => window?.destroy());
 
-ipcMain.on("Browser::Update", (_: IpcMainEvent, id: string, rect: Rectangle) =>
-  (BrowserWindow.getAllWindows() as BrowserWindows)
-    .find(({ frameName }) => frameName === id)
-    ?.setBounds(rect)
-);
+ipcMain.on("Browser::Update", (_: IpcMainEvent, id: string, rect: Rectangle) => {
+  const browser = findBrowserWindow(id);
+  browser?.setBounds(rect);
+  focusBrowserWindow(browser);
+});
+
+ipcMain.on("Browser::Hide", (_: IpcMainEvent, id: string) => {
+  const browser = findBrowserWindow(id);
+  if (!(browser?.isVisible())) return;
+
+  browser.blur();
+  browser.hide();
+});
+
+ipcMain.on("Browser::Show", (_: IpcMainEvent, id: string) => {
+  const browser = findBrowserWindow(id);
+  if (browser?.isFocused()) return;
+  focusBrowserWindow(browser);
+});
+
+function findBrowserWindow (id: string): BrowserWindow | void
+{
+  const windows = BrowserWindow.getAllWindows() as CustomBrowser[];
+  const browser = windows.find(({ frameName }) => frameName === id);
+  return browser ?? console.error(`Browser Window "${id}" not found.`);
+}
+
+function focusBrowserWindow (browser: BrowserWindow | void): void
+{
+  if (!browser) return;
+  browser.moveTop();
+  browser.focus();
+  browser.show();
+}

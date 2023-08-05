@@ -32,8 +32,8 @@ export const Window = (
   const [horizontal, setHorizontal] = createSignal(rect.width);
 
   const dragStart = (event: ClickEvent) => {
-    onFocus(window as HTMLElement, id);
     if (fullscreen()) return;
+    onFocus(window as HTMLElement, id);
 
     mouse.x = event.clientX;
     mouse.y = event.clientY;

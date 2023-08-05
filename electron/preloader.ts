@@ -2,8 +2,8 @@ import type { Rectangle } from "electron";
 import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("Electron", {
-  hideBrowser: (id: string) =>
-    ipcRenderer.send("Browser::Hide", id),
+  hideBrowsers: () =>
+    ipcRenderer.send("Browser::Hide"),
 
   showBrowser: (id: string) =>
     ipcRenderer.send("Browser::Show", id),
@@ -20,3 +20,7 @@ window.addEventListener("DOMContentLoaded", () => {
   console.info(`Chrome   : v${process.versions.chrome}`);
   console.info(`Electron : v${process.versions.electron}`);
 });
+
+ipcRenderer.on("Browser::Focus", (_, detail: string) =>
+  document.dispatchEvent(new CustomEvent("Browser::Active", { detail }))
+);

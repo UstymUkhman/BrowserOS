@@ -1,6 +1,6 @@
-import type { IpcMainEvent, Rectangle /*, Event */ } from "electron";
 import { BrowserWindow, app, screen, ipcMain } from "electron";
 const PRODUCTION = process.env.ENVIRONMENT !== "development";
+import type { IpcMainEvent, Rectangle } from "electron";
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "true";
 delete process.env.ELECTRON_ENABLE_SECURITY_WARNINGS;
@@ -11,10 +11,6 @@ import { join } from "path";
 type CustomBrowser = BrowserWindow & {
   frameName: string;
 };
-
-// type BrowserEvent = Event & {
-//   sender: CustomBrowser;
-// };
 
 app.on("ready", () => {
   if (window !== null) return;
@@ -28,6 +24,7 @@ app.on("ready", () => {
 
     backgroundColor: "#222222",
     fullscreen: PRODUCTION,
+    resizable: false,
     frame: false
   });
 
@@ -79,9 +76,9 @@ app.on("web-contents-created", (_, contents) =>
       })
     );
 
-    // event.newGuest.on("focus", (event: BrowserEvent) => {
-    //   console.log("Focus: ", event);
-    // });
+    event.newGuest.on("focus", () =>
+      window?.webContents.send("Browser::Focus", frameName)
+    );
 
     event.newGuest.moveTop();
     event.newGuest.focus();
@@ -92,39 +89,39 @@ app.on("window-all-closed", () =>
   process.platform !== "darwin" && app.quit()
 );
 
-ipcMain.on("OS::Shutdown", () => window?.destroy());
+ipcMain.on("Browser::Hide", () =>
+  (BrowserWindow.getAllWindows() as CustomBrowser[]).forEach(window =>
+    window.frameName?.includes("Browser") && window.hide()
+  )
+);
+
+ipcMain.on("Browser::Show", (_: IpcMainEvent, id: string) =>
+  (BrowserWindow.getAllWindows() as CustomBrowser[]).forEach(window =>
+  {
+    if (window.frameName === id) focusBrowserWindow(window);
+    else if (window.frameName?.includes("Browser")) window.hide();
+  })
+);
 
 ipcMain.on("Browser::Update", (_: IpcMainEvent, id: string, rect: Rectangle) => {
-  const browser = findBrowserWindow(id);
-  browser?.setBounds(rect);
-  focusBrowserWindow(browser);
+  const window = findBrowserWindow(id);
+  window?.setBounds(rect);
+  focusBrowserWindow(window);
 });
 
-ipcMain.on("Browser::Hide", (_: IpcMainEvent, id: string) => {
-  const browser = findBrowserWindow(id);
-  if (!(browser?.isVisible())) return;
-
-  browser.blur();
-  browser.hide();
-});
-
-ipcMain.on("Browser::Show", (_: IpcMainEvent, id: string) => {
-  const browser = findBrowserWindow(id);
-  if (browser?.isFocused()) return;
-  focusBrowserWindow(browser);
-});
+function focusBrowserWindow (window?: BrowserWindow | void): void
+{
+  if (!window) return;
+  window.moveTop();
+  window.focus();
+  window.show();
+}
 
 function findBrowserWindow (id: string): BrowserWindow | void
 {
   const windows = BrowserWindow.getAllWindows() as CustomBrowser[];
-  const browser = windows.find(({ frameName }) => frameName === id);
-  return browser ?? console.error(`Browser Window "${id}" not found.`);
+  const window = windows.find(({ frameName }) => frameName === id);
+  return window ?? console.error(`Browser Window "${id}" not found.`);
 }
 
-function focusBrowserWindow (browser: BrowserWindow | void): void
-{
-  if (!browser) return;
-  browser.moveTop();
-  browser.focus();
-  browser.show();
-}
+ipcMain.on("OS::Shutdown", () => window?.destroy());

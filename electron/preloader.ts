@@ -2,11 +2,11 @@ import type { Rectangle } from "electron";
 import { contextBridge, ipcRenderer } from "electron";
 
 contextBridge.exposeInMainWorld("Electron", {
-  hideBrowsers: () =>
-    ipcRenderer.send("Browser::Hide"),
-
   showBrowser: (id: string) =>
     ipcRenderer.send("Browser::Show", id),
+
+  hideBrowsers: (id?: string) =>
+    ipcRenderer.send("Browser::Hide", id),
 
   updateBrowser: (id: string, rect: Rectangle) =>
     ipcRenderer.send("Browser::Update", id, rect),

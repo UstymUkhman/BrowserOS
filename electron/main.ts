@@ -89,18 +89,18 @@ app.on("window-all-closed", () =>
   process.platform !== "darwin" && app.quit()
 );
 
-ipcMain.on("Browser::Hide", () =>
-  (BrowserWindow.getAllWindows() as CustomBrowser[]).forEach(window =>
-    window.frameName?.includes("Browser") && window.hide()
-  )
-);
-
 ipcMain.on("Browser::Show", (_: IpcMainEvent, id: string) =>
   (BrowserWindow.getAllWindows() as CustomBrowser[]).forEach(window =>
   {
     if (window.frameName === id) focusBrowserWindow(window);
     else if (window.frameName?.includes("Browser")) window.hide();
   })
+);
+
+ipcMain.on("Browser::Hide", (_: IpcMainEvent, id?: string) =>
+  (BrowserWindow.getAllWindows() as CustomBrowser[]).forEach(window =>
+    window.frameName?.includes("Browser") && window.frameName !== id && window.hide()
+  )
 );
 
 ipcMain.on("Browser::Update", (_: IpcMainEvent, id: string, rect: Rectangle) => {

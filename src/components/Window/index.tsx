@@ -33,7 +33,7 @@ export const Window = (
 
   const dragStart = (event: ClickEvent) => {
     if (fullscreen()) return;
-    onFocus(window as HTMLElement, id);
+    onFocus(window as HTMLElement);
 
     mouse.x = event.clientX;
     mouse.y = event.clientY;
@@ -68,7 +68,7 @@ export const Window = (
 
   const click = (event: ClickEvent) => {
     event.stopPropagation();
-    onClick(window as HTMLElement, id);
+    onClick(window as HTMLElement);
   };
 
   const close = (event: ClickEvent) => {
@@ -98,7 +98,7 @@ export const Window = (
 
   return (
     <aside
-      id={String(id)}
+      id={id}
       onclick={click}
       class={CSS.window}
       ref={window as HTMLElement}

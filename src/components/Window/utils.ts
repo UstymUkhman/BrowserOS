@@ -12,7 +12,7 @@ export function disposeWindow(windows: string[], id: string): string[] {
   if (index > -1.0)
     return windows.slice(0.0, index).concat(windows.slice(index + 1.0));
 
-  console.error(`Window with id "${String(id)}" not found.`);
+  console.error(`Window with id "${id}" not found.`);
   return windows;
 }
 

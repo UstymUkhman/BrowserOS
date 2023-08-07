@@ -2,15 +2,14 @@ import { OS } from "@/app";
 import CSS from "./Browser.module.css";
 import { Emitter } from "@/utils/Events";
 import { Window } from "@/components/Window";
-// import { MinRect } from "@/components/Window/utils";
 import { For, batch, createSignal, onCleanup } from "solid-js";
-import { createWindows, disposeWindow } from "@/components/Window/utils";
-import { url, /* offset, */ features, screenRect, focusList } from "./utils";
+import { MinRect, createWindows, disposeWindow } from "@/components/Window/utils";
+import { url, offset, features, focusList, screenRect, rectOffset } from "./utils";
 
 export const Browser = (_: object, browserId = 0) =>
 {
   const views: Record<string, Window> = {};
-  // const [rect, setRect] = createSignal(MinRect);
+  const [rect, setRect] = createSignal(MinRect);
   const [windows, setWindows] = createWindows([]);
 
   const [online, setOnline] = createSignal(navigator.onLine);
@@ -63,26 +62,32 @@ export const Browser = (_: object, browserId = 0) =>
   const onClose = (id?: string) => {
     if (!id) return console.error(`Window with id "${id}" not found.`);
     setWindows((windows) => disposeWindow(windows, id));
-    if (!windows.length) browserId = 0.0;
 
     focusList.remove(id);
     views[id].close();
+
+    if (!windows.length) {
+      setRect(MinRect);
+      browserId = 0.0;
+    }
   };
 
   const onOpen = () => !OS.Electron
     ? open(url, "_blank", features()) : batch(() => {
-      // const { x: u, y: v, width, height } = rect();
-      // const visibleOffset = +!!windows.length;
+      const { x: u, y: v, width, height } = rect();
+      const visibleOffset = +!!windows.length;
 
-      // const x = u + visibleOffset * offset[0];
-      // const y = v + visibleOffset * offset[1];
+      const x = u + visibleOffset * offset[0];
+      const y = v + visibleOffset * offset[1];
 
       const id = `Browser${browserId++}`;
-      // setRect({ x, y, width, height });
+      setRect({ x, y, width, height });
       setWindows(windows.length, id);
       focusList.add(id);
 
-      views[id] = open(url, id, features()) as Window;
+      views[id] = open(url, id, features(
+        rectOffset(rect())
+      )) as Window;
     });
 
   Emitter.add("Browser::Open", onOpen);
@@ -113,6 +118,7 @@ export const Browser = (_: object, browserId = 0) =>
           onFocus={onFocus}
           onBlur={onBlur}
           title="Browser"
+          rect={rect()}
           id={window}
         >
           {!online() && (

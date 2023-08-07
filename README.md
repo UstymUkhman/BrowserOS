@@ -16,6 +16,10 @@
 
 [![]](https://github.com/UstymUkhman/BrowserOS/assets/9247261/cc92e304-9ff2-4d80-9d60-739566c7f34c)
 
+## But Why? ##
+
+Because sometimes all you need is ~~love~~ a browser and... why not?
+
 ## Download ##
 
 ```bash

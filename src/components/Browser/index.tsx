@@ -2,6 +2,7 @@ import { OS } from "@/app";
 import CSS from "./Browser.module.css";
 import { Emitter } from "@/utils/Events";
 import { Window } from "@/components/Window";
+import Search from "@/assets/icons/Browser/search.svg";
 import { For, batch, createSignal, onCleanup } from "solid-js";
 import { MinRect, createWindows, disposeWindow } from "@/components/Window/utils";
 import { url, offset, features, focusList, screenRect, rectOffset } from "./utils";
@@ -90,6 +91,8 @@ export const Browser = (_: object, browserId = 0) =>
       )) as Window;
     });
 
+  updateConnection();
+
   Emitter.add("Browser::Open", onOpen);
   document.addEventListener("Browser::Active", onActive);
 
@@ -105,8 +108,6 @@ export const Browser = (_: object, browserId = 0) =>
     globalThis.removeEventListener("offline", updateConnection, false);
   });
 
-  updateConnection();
-
   return (
     <For each={windows}>
       {window => (
@@ -121,7 +122,12 @@ export const Browser = (_: object, browserId = 0) =>
           rect={rect()}
           id={window}
         >
-          {!online() && (
+          {online() ? (
+            <div class={CSS.search}>
+              <input type="text" />
+              <button><Search /></button>
+            </div>
+          ) : (
             <div class={CSS.offline}>
               <h2>Looks like you're offline...</h2>
               <span>:(</span>

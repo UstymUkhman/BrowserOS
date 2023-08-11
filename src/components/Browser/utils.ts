@@ -1,4 +1,4 @@
-import FocusList from "@/components/Browser/FoxusList";
+import FocusList from "@/components/Browser/FocusList";
 import { innerRect } from "@/components/Window/utils";
 
 export const offset = [25.0, 25.0];

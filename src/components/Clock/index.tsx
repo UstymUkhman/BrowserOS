@@ -36,7 +36,7 @@ export const Clock = ({ showSeconds, showDate }: ClockProps) => {
   onCleanup(() => RAF.remove(tick));
 
   return (
-    <div class={CSS.clock} onClick={toggleMenu}>
+    <div title="Clock" class={CSS.clock} onClick={toggleMenu}>
       {showDate && <span>{date.toDateString()},</span>}
       <time>{time()}</time>
 

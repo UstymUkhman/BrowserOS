@@ -124,7 +124,7 @@ export const Window = (
 
           <div class={CSS.buttons}>
             <img
-              alt={fullscreen() ? "Minimize" : "Maximize"}
+              title={fullscreen() ? "Minimize" : "Maximize"}
               onclick={toggleFullscreen}
               src={fullscreen()
                 ? theme.dark ? Icon.light.minimize : Icon.dark.minimize
@@ -135,7 +135,7 @@ export const Window = (
             <img
               src={theme.dark ? Icon.light.close : Icon.dark.close}
               onclick={close}
-              alt="Close"
+              title="Close"
             />
           </div>
         </nav>

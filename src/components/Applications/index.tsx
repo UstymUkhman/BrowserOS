@@ -15,7 +15,13 @@ export const Applications = () =>
 
   return (
     <div class={CSS.applications}>
-      <span onClick={toggleMenu}>Applications</span>
+      <span
+        title="Applications"
+        onClick={toggleMenu}
+      >
+        Applications
+      </span>
+
       {menu() && (
         <Menu origin="left" items={[{
           onClick: onBrowserClick,

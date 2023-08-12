@@ -16,6 +16,7 @@ export const Switcher = ({ active }: SwitcherProps) =>
       classList={{ [CSS.enabled]: on() }}
       class={CSS.switcher}
       onClick={onClick}
+      title="Theme"
     >
       <Sun />
       <Moon />

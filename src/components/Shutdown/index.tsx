@@ -6,6 +6,7 @@ export const Shutdown = () => (
   <button
     onClick={() => OS.Electron?.shutdown()}
     class={CSS.shutdown}
+    title="Shutdown"
   >
     <Icon />
   </button>

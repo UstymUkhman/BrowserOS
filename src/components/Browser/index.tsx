@@ -1,11 +1,23 @@
+import {
+  url,
+  offset,
+  features,
+  focusList,
+  screenRect,
+  rectOffset,
+  historyList
+} from "./utils";
+
 import { OS } from "@/app";
 import CSS from "./Browser.module.css";
 import { Emitter } from "@/utils/Events";
 import { Window } from "@/components/Window";
+
+import Arrow from "@/assets/icons/Browser/arrow.svg";
+import Reload from "@/assets/icons/Browser/reload.svg";
 import Search from "@/assets/icons/Browser/search.svg";
 import { For, batch, createSignal, onCleanup } from "solid-js";
 import { MinRect, createWindows, disposeWindow } from "@/components/Window/utils";
-import { url, offset, features, focusList, screenRect, rectOffset } from "./utils";
 
 export const Browser = (_: object, browserId = 0) =>
 {
@@ -84,6 +96,8 @@ export const Browser = (_: object, browserId = 0) =>
       const id = `Browser${browserId++}`;
       setRect({ x, y, width, height });
       setWindows(windows.length, id);
+
+      historyList.create(id);
       focusList.add(id);
 
       views[id] = open(url, id, features(
@@ -101,6 +115,8 @@ export const Browser = (_: object, browserId = 0) =>
 
   onCleanup(() => {
     focusList.dispose();
+    historyList.dispose();
+
     Emitter.remove("Browser::Open", onOpen);
     document.removeEventListener("Browser::Active", onActive);
 
@@ -123,9 +139,27 @@ export const Browser = (_: object, browserId = 0) =>
           id={window}
         >
           {online() ? (
-            <div class={CSS.search}>
-              <input type="text" />
-              <button><Search /></button>
+            <div class={CSS.toolbar}>
+              <div class={CSS.buttons}>
+                <button title="Backward" classList={{
+                  [CSS.disabled]: !historyList.backward(window)
+                }}>
+                  <Arrow />
+                </button>
+
+                <button title="Forward" classList={{
+                  [CSS.disabled]: !historyList.forward(window)
+                }}>
+                  <Arrow />
+                </button>
+
+                <button title="Reload"><Reload /></button>
+              </div>
+
+              <div class={CSS.search}>
+                <input type="text" />
+                <button title="Search"><Search /></button>
+              </div>
             </div>
           ) : (
             <div class={CSS.offline}>

@@ -14,6 +14,7 @@ export type WindowProps = {
   onClick?: (window: HTMLElement) => unknown;
   onClose?: (id?: string) => unknown;
 
+  innerOffset?: Rectangle;
   children?: JSXElement;
   hideBar?: boolean;
   rect?: Rectangle;

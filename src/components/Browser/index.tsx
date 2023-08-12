@@ -1,11 +1,12 @@
 import {
-  url,
-  offset,
+  startUrl,
   features,
   focusList,
   screenRect,
   rectOffset,
-  historyList
+  historyList,
+  innerOffset,
+  windowOffset
 } from "./utils";
 
 import { OS } from "@/app";
@@ -19,8 +20,11 @@ import Search from "@/assets/icons/Browser/search.svg";
 import { For, batch, createSignal, onCleanup } from "solid-js";
 import { MinRect, createWindows, disposeWindow } from "@/components/Window/utils";
 
-export const Browser = (_: object, browserId = 0) =>
+export const Browser = () =>
 {
+  let browserId = 0.0;
+  let searching = false;
+
   const views: Record<string, Window> = {};
   const [rect, setRect] = createSignal(MinRect);
   const [windows, setWindows] = createWindows([]);
@@ -38,7 +42,7 @@ export const Browser = (_: object, browserId = 0) =>
     OS.Electron?.updateBrowser(id as string, screenRect(rect));
 
   const onClick = (window: HTMLElement) => {
-    OS.Electron?.showBrowser(window.id);
+    !searching && OS.Electron?.showBrowser(window.id);
     focus(window);
   };
 
@@ -76,6 +80,7 @@ export const Browser = (_: object, browserId = 0) =>
     if (!id) return console.error(`Window with id "${id}" not found.`);
     setWindows((windows) => disposeWindow(windows, id));
 
+    historyList.remove(id);
     focusList.remove(id);
     views[id].close();
 
@@ -85,13 +90,23 @@ export const Browser = (_: object, browserId = 0) =>
     }
   };
 
-  const onOpen = () => !OS.Electron
-    ? open(url, "_blank", features()) : batch(() => {
-      const { x: u, y: v, width, height } = rect();
-      const visibleOffset = +!!windows.length;
+  const onReload = (id: string) => {
+    console.log("onReload");
+    OS.Electron?.reloadBrowser(id);
+  };
 
-      const x = u + visibleOffset * offset[0];
-      const y = v + visibleOffset * offset[1];
+  const onSearch = (id: string) =>
+    OS.Electron?.searchBrowser(id, historyList.current(id) ?? "");
+
+  const onOpen = () => !OS.Electron
+    ? open(startUrl, "_blank", features()) : batch(() => {
+      const { x: u, y: v, width, height } = rect();
+
+      const visibleOffset = +!!windows.length;
+      const [offsetX, offsetY] = windowOffset;
+
+      const x = u + visibleOffset * offsetX;
+      const y = v + visibleOffset * offsetY;
 
       const id = `Browser${browserId++}`;
       setRect({ x, y, width, height });
@@ -100,10 +115,18 @@ export const Browser = (_: object, browserId = 0) =>
       historyList.create(id);
       focusList.add(id);
 
-      views[id] = open(url, id, features(
-        rectOffset(rect())
-      )) as Window;
+      views[id] = open(
+        startUrl, id,
+        features(
+          rectOffset(
+            rect()
+          )
+        )
+      ) as Window;
     });
+
+  const onBackward = void 0;
+  const onForward = void 0;
 
   updateConnection();
 
@@ -128,6 +151,7 @@ export const Browser = (_: object, browserId = 0) =>
     <For each={windows}>
       {window => (
         <Window
+          innerOffset={innerOffset}
           onMaximize={onMaximize}
           onMinimize={onMinimize}
           onClick={onClick}
@@ -141,24 +165,46 @@ export const Browser = (_: object, browserId = 0) =>
           {online() ? (
             <div class={CSS.toolbar}>
               <div class={CSS.buttons}>
-                <button title="Backward" classList={{
+                <button
+                  onClick={onBackward}
+                  title="Backward"
+                  classList={{
                   [CSS.disabled]: !historyList.backward(window)
                 }}>
                   <Arrow />
                 </button>
 
-                <button title="Forward" classList={{
+                <button
+                  onClick={onForward}
+                  title="Forward"
+                  classList={{
                   [CSS.disabled]: !historyList.forward(window)
                 }}>
                   <Arrow />
                 </button>
 
-                <button title="Reload"><Reload /></button>
+                <button
+                  onClick={() => onReload(window)}
+                  title="Reload"
+                >
+                  <Reload />
+                </button>
               </div>
 
               <div class={CSS.search}>
-                <input type="text" />
-                <button title="Search"><Search /></button>
+                <input
+                  value={historyList.current(window)}
+                  onFocus={() => searching = true}
+                  onBlur={() => searching = false}
+                  type="text"
+                />
+
+                <button
+                  onClick={() => onSearch(window)}
+                  title="Search"
+                >
+                  <Search />
+                </button>
               </div>
             </div>
           ) : (

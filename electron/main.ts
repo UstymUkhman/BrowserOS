@@ -6,6 +6,7 @@ process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "true";
 delete process.env.ELECTRON_ENABLE_SECURITY_WARNINGS;
 
 let window: BrowserWindow | null = null;
+import { exec } from "child_process";
 import { join } from "path";
 
 type CustomBrowser = BrowserWindow & {
@@ -90,8 +91,7 @@ app.on("window-all-closed", () =>
 );
 
 ipcMain.on("Browser::Show", (_: IpcMainEvent, id: string) =>
-  (BrowserWindow.getAllWindows() as CustomBrowser[]).forEach(window =>
-  {
+  (BrowserWindow.getAllWindows() as CustomBrowser[]).forEach(window => {
     if (window.frameName === id) focusBrowserWindow(window);
     else if (window.frameName?.includes("Browser")) window.hide();
   })
@@ -101,6 +101,14 @@ ipcMain.on("Browser::Hide", (_: IpcMainEvent, id?: string) =>
   (BrowserWindow.getAllWindows() as CustomBrowser[]).forEach(window =>
     window.frameName?.includes("Browser") && window.frameName !== id && window.hide()
   )
+);
+
+ipcMain.on("Browser::Reload", (_: IpcMainEvent, id: string) =>
+  findBrowserWindow(id)?.webContents.reload()
+);
+
+ipcMain.on("Browser::Search", (_: IpcMainEvent, id: string, url: string) =>
+  findBrowserWindow(id)?.webContents.loadURL(url)
 );
 
 ipcMain.on("Browser::Update", (_: IpcMainEvent, id: string, rect: Rectangle) => {
@@ -124,4 +132,7 @@ function findBrowserWindow (id: string): BrowserWindow | void
   return window ?? console.error(`Browser Window "${id}" not found.`);
 }
 
-ipcMain.on("OS::Shutdown", () => window?.destroy());
+ipcMain.on("OS::Shutdown", () => {
+  window?.destroy();
+  exec("init 0");
+});

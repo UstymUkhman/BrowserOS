@@ -1,13 +1,13 @@
-import { url } from "@/components/Browser/utils";
+import { startUrl } from "@/components/Browser/utils";
 
 export default class HistoryList
 {
   private readonly cursor: Map<string, number> = new Map();
   private readonly urls: Map<string, string[]> = new Map();
 
-  public create (id: string): void {
-    this.urls.set(id, [url]);
-    this.cursor.set(id, 0);
+  public current (id: string): string | undefined {
+    const cursor = this.cursor.get(id);
+    return this.urls.get(id)?.[cursor ?? 0];
   }
 
   public add (id: string, url: string): void {
@@ -26,6 +26,11 @@ export default class HistoryList
     return !!(cursor &&
       this.urls.get(id)?.[cursor + 1]
     );
+  }
+
+  public create (id: string): void {
+    this.urls.set(id, [startUrl]);
+    this.cursor.set(id, 0);
   }
 
   public remove (id: string): void {

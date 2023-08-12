@@ -5,8 +5,11 @@
 declare type System = Window & typeof globalThis &
 {
   Electron?: {
+    searchBrowser: (id: string, url: string) => void;
+    reloadBrowser: (id: string) => void;
     hideBrowsers: (id?: string) => void;
     showBrowser: (id: string) => void;
+
     shutdown: () => void;
 
     updateBrowser: (

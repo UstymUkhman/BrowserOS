@@ -2,8 +2,8 @@ import { useTheme } from "@/theme";
 import CSS from "./Window.module.css";
 import { createSignal } from "solid-js";
 import Icon from "@/assets/icons/Window";
-import { MinRect, MaxRect, innerRect } from "./utils";
 import type { WindowProps, ClickEvent } from "./types";
+import { NoRect, MinRect, MaxRect, innerRect } from "./utils";
 
 export const Window = (
   {
@@ -13,6 +13,7 @@ export const Window = (
     onClose = () => void 0,
     onFocus = () => void 0,
     onBlur = () => void 0,
+    innerOffset = NoRect,
     hideBar = false,
     rect = MinRect,
     children, id,
@@ -56,14 +57,20 @@ export const Window = (
   };
 
   const dragStop = () => {
-    onBlur(innerRect(false, {
-      width: horizontal(),
-      height: vertical(),
-      x: left(),
-      y: top()
-    }), id);
-
     setDrag(false);
+
+    onBlur(
+      innerRect(
+        false,
+        {
+          width: horizontal(),
+          height: vertical(),
+          x: left(),
+          y: top()
+        },
+        innerOffset
+      ), id
+    );
   };
 
   const click = (event: ClickEvent) => {
@@ -79,10 +86,16 @@ export const Window = (
   const toggleFullscreen = () => {
     setFullscreen(!fullscreen());
 
+    const rect = innerRect(
+      fullscreen(),
+      undefined,
+      innerOffset
+    );
+
     if (fullscreen()) {
-      onMaximize(innerRect(true), id);
       setHorizontal(MaxRect.width);
       setVertical(MaxRect.height);
+      onMaximize(rect, id);
       setLeft(MaxRect.x);
       setTop(MaxRect.y);
     }
@@ -90,9 +103,9 @@ export const Window = (
     else {
       setTop(rect.y);
       setLeft(rect.x);
+      onMinimize(rect, id);
       setVertical(rect.height);
       setHorizontal(rect.width);
-      onMinimize(innerRect(), id);
     }
   };
 

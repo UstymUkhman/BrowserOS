@@ -8,6 +8,12 @@ contextBridge.exposeInMainWorld("Electron", {
   hideBrowsers: (id?: string) =>
     ipcRenderer.send("Browser::Hide", id),
 
+  reloadBrowser: (id: string) =>
+    ipcRenderer.send("Browser::Reload", id),
+
+  searchBrowser: (id: string, url: string) =>
+    ipcRenderer.send("Browser::Search", id, url),
+
   updateBrowser: (id: string, rect: Rectangle) =>
     ipcRenderer.send("Browser::Update", id, rect),
 

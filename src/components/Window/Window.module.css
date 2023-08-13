@@ -46,16 +46,18 @@
 .window .toolbar .buttons {
   justify-content: space-between;
   min-width: var(--buttonsWidth);
+
   display: inherit;
   column-gap: 6px;
 
-  padding: 6px;
   height: 100%;
   width: auto;
 }
 
 .window .toolbar .buttons > img {
   cursor: pointer;
+  padding: 6px;
+
   height: 100%;
-  width: auto;
+  width: 24px;
 }

@@ -57,6 +57,7 @@ export const Window = (
   };
 
   const dragStop = () => {
+    if (!drag()) return;
     setDrag(false);
 
     onBlur(
@@ -86,7 +87,7 @@ export const Window = (
   const toggleFullscreen = () => {
     setFullscreen(!fullscreen());
 
-    const rect = innerRect(
+    const inner = innerRect(
       fullscreen(),
       undefined,
       innerOffset
@@ -95,7 +96,7 @@ export const Window = (
     if (fullscreen()) {
       setHorizontal(MaxRect.width);
       setVertical(MaxRect.height);
-      onMaximize(rect, id);
+      onMaximize(inner, id);
       setLeft(MaxRect.x);
       setTop(MaxRect.y);
     }
@@ -103,7 +104,7 @@ export const Window = (
     else {
       setTop(rect.y);
       setLeft(rect.x);
-      onMinimize(rect, id);
+      onMinimize(inner, id);
       setVertical(rect.height);
       setHorizontal(rect.width);
     }
@@ -112,7 +113,6 @@ export const Window = (
   return (
     <aside
       id={id}
-      onclick={click}
       class={CSS.window}
       ref={window as HTMLElement}
       style={{
@@ -128,6 +128,7 @@ export const Window = (
           onmouseout={dragStop}
           onmouseup={dragStop}
           class={CSS.toolbar}
+          onclick={click}
           classList={{
             [CSS.fullscreen]: fullscreen(),
             [CSS.dragging]: drag()

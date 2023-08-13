@@ -5,11 +5,6 @@ export default class HistoryList
   private readonly cursor: Map<string, number> = new Map();
   private readonly urls: Map<string, string[]> = new Map();
 
-  public current (id: string): string | undefined {
-    const cursor = this.cursor.get(id);
-    return this.urls.get(id)?.[cursor ?? 0];
-  }
-
   public add (id: string, url: string): void {
     const cursor = this.cursor.get(id) ?? 0;
     this.cursor.set(id, cursor + 1);
@@ -26,6 +21,11 @@ export default class HistoryList
     return !!(cursor &&
       this.urls.get(id)?.[cursor + 1]
     );
+  }
+
+  public current (id: string): string {
+    const cursor = this.cursor.get(id);
+    return this.urls.get(id)?.[cursor ?? 0] ?? "";
   }
 
   public create (id: string): void {

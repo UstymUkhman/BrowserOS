@@ -43,7 +43,7 @@ export default class FocusList
 
   public dispose (): void {
     this.windows.length = 0.0;
-    this.willClose = true;
+    this.willClose = false;
   }
 
   private get last (): number {

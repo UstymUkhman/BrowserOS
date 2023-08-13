@@ -10,20 +10,17 @@ import {
 } from "./utils";
 
 import { OS } from "@/app";
-import CSS from "./Browser.module.css";
+import { Offline } from "./Offline";
+import { Toolbar } from "./Toolbar";
 import { Emitter } from "@/utils/Events";
 import { Window } from "@/components/Window";
-
-import Arrow from "@/assets/icons/Browser/arrow.svg";
-import Reload from "@/assets/icons/Browser/reload.svg";
-import Search from "@/assets/icons/Browser/search.svg";
 import { For, batch, createSignal, onCleanup } from "solid-js";
 import { MinRect, createWindows, disposeWindow } from "@/components/Window/utils";
 
 export const Browser = () =>
 {
   let browserId = 0.0;
-  let searching = false;
+  // let searching = false;
 
   const views: Record<string, Window> = {};
   const [rect, setRect] = createSignal(MinRect);
@@ -41,8 +38,11 @@ export const Browser = () =>
   const onBlur = (rect: Rectangle, id?: string) =>
     OS.Electron?.updateBrowser(id as string, screenRect(rect));
 
+  const onSearchStart = () => void 0; // searching = true;
+  const onSearchEnd = () => void 0; // searching = false;
+
   const onClick = (window: HTMLElement) => {
-    !searching && OS.Electron?.showBrowser(window.id);
+    OS.Electron?.showBrowser(window.id);
     focus(window);
   };
 
@@ -60,6 +60,9 @@ export const Browser = () =>
     focusList.focus(window.id);
     window.style.zIndex = "1";
   };
+
+  const onToolbarFocus = (id: string) =>
+    onFocus(document.getElementById(id) as HTMLElement);
 
   const onActive = (event: Event) => {
     const { detail } = event as CustomEvent;
@@ -90,14 +93,6 @@ export const Browser = () =>
     }
   };
 
-  const onReload = (id: string) => {
-    console.log("onReload");
-    OS.Electron?.reloadBrowser(id);
-  };
-
-  const onSearch = (id: string) =>
-    OS.Electron?.searchBrowser(id, historyList.current(id) ?? "");
-
   const onOpen = () => !OS.Electron
     ? open(startUrl, "_blank", features()) : batch(() => {
       const { x: u, y: v, width, height } = rect();
@@ -124,9 +119,6 @@ export const Browser = () =>
         )
       ) as Window;
     });
-
-  const onBackward = void 0;
-  const onForward = void 0;
 
   updateConnection();
 
@@ -162,57 +154,15 @@ export const Browser = () =>
           rect={rect()}
           id={window}
         >
-          {online() ? (
-            <div class={CSS.toolbar}>
-              <div class={CSS.buttons}>
-                <button
-                  onClick={onBackward}
-                  title="Backward"
-                  classList={{
-                  [CSS.disabled]: !historyList.backward(window)
-                }}>
-                  <Arrow />
-                </button>
-
-                <button
-                  onClick={onForward}
-                  title="Forward"
-                  classList={{
-                  [CSS.disabled]: !historyList.forward(window)
-                }}>
-                  <Arrow />
-                </button>
-
-                <button
-                  onClick={() => onReload(window)}
-                  title="Reload"
-                >
-                  <Reload />
-                </button>
-              </div>
-
-              <div class={CSS.search}>
-                <input
-                  value={historyList.current(window)}
-                  onFocus={() => searching = true}
-                  onBlur={() => searching = false}
-                  type="text"
-                />
-
-                <button
-                  onClick={() => onSearch(window)}
-                  title="Search"
-                >
-                  <Search />
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div class={CSS.offline}>
-              <h2>Looks like you're offline...</h2>
-              <span>:(</span>
-            </div>
-          )}
+          {!online()
+            ? <Offline />
+            : <Toolbar
+                onSearchStart={onSearchStart}
+                onSearchEnd={onSearchEnd}
+                onFocus={onToolbarFocus}
+                id={window}
+              />
+          }
         </Window>
       )}
     </For>

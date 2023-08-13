@@ -1,0 +1,22 @@
+.offline {
+  background-color: rgb(var(--primary));
+  height: calc(100% - 26px);
+
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  display: flex;
+  width: 100%;
+}
+
+.offline h2 {
+  color: rgb(var(--secondary));
+  margin: 0 0 25px;
+  font-size: 50px;
+}
+
+.offline span {
+  color: rgb(var(--secondary));
+  font-size: 150px;
+}

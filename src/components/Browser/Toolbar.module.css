@@ -1,0 +1,81 @@
+.toolbar {
+  box-shadow: 0px 3px 3px 0px rgb(var(--secondary) / 0.5);
+  background-color: rgb(var(--primary));
+  justify-content: space-between;
+
+  text-align: center;
+  position: relative;
+
+  padding: 4px 10px;
+  display: flex;
+
+  height: 30px;
+  width: 100%;
+  top: -4px;
+}
+
+.buttons {
+  justify-content: space-between;
+  margin-right: 20px;
+
+  display: flex;
+  width: 80px;
+}
+
+.buttons button {
+  width: 20px;
+}
+
+.buttons button svg {
+  transition: fill 0.2s, opacity 0.2s;
+  fill: rgb(var(--secondary));
+}
+
+.buttons button.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.buttons button:hover svg {
+  fill: rgb(var(--secondaryHover));
+}
+
+.buttons button:nth-child(2) {
+  transform: rotate(180deg);
+  margin-right: 15px;
+  margin-left: 10px;
+}
+
+.search {
+  padding-right: 40px;
+  width: 100%;
+}
+
+.search input {
+  font-family: 'Roboto Condensed',
+    sans-serif, system-ui, monospace;
+
+  padding: 0 26px 0 13px;
+  border-radius: 20px;
+  font-weight: bold;
+
+  height: 100%;
+  width: 100%;
+
+  border: 0;
+  margin: 0;
+}
+
+.search input:focus,
+.search input:active {
+  outline: none;
+}
+
+.search button {
+  transform: translate(-135%, 2.5px);
+  position: absolute;
+}
+
+.search button svg {
+  stroke: rgb(var(--dark));
+}

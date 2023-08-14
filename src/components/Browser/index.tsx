@@ -4,7 +4,6 @@ import {
   focusList,
   screenRect,
   rectOffset,
-  historyList,
   innerOffset,
   windowOffset
 } from "./utils";
@@ -17,11 +16,8 @@ import { Window } from "@/components/Window";
 import { For, batch, createSignal, onCleanup } from "solid-js";
 import { MinRect, createWindows, disposeWindow } from "@/components/Window/utils";
 
-export const Browser = () =>
+export const Browser = (_: object, browserId = 0) =>
 {
-  let browserId = 0.0;
-  // let searching = false;
-
   const views: Record<string, Window> = {};
   const [rect, setRect] = createSignal(MinRect);
   const [windows, setWindows] = createWindows([]);
@@ -35,11 +31,21 @@ export const Browser = () =>
   const onMaximize = (rect: Rectangle, id?: string) =>
     OS.Electron?.updateBrowser(id as string, screenRect(rect));
 
+  const onNavigate = (id: string, url: string) => {
+    views[id].close();
+
+    views[id] = open(
+      url, id,
+      features(
+        rectOffset(
+          rect()
+        )
+      )
+    ) as Window;
+  };
+
   const onBlur = (rect: Rectangle, id?: string) =>
     OS.Electron?.updateBrowser(id as string, screenRect(rect));
-
-  const onSearchStart = () => void 0; // searching = true;
-  const onSearchEnd = () => void 0; // searching = false;
 
   const onClick = (window: HTMLElement) => {
     OS.Electron?.showBrowser(window.id);
@@ -83,7 +89,6 @@ export const Browser = () =>
     if (!id) return console.error(`Window with id "${id}" not found.`);
     setWindows((windows) => disposeWindow(windows, id));
 
-    historyList.remove(id);
     focusList.remove(id);
     views[id].close();
 
@@ -107,7 +112,6 @@ export const Browser = () =>
       setRect({ x, y, width, height });
       setWindows(windows.length, id);
 
-      historyList.create(id);
       focusList.add(id);
 
       views[id] = open(
@@ -130,7 +134,6 @@ export const Browser = () =>
 
   onCleanup(() => {
     focusList.dispose();
-    historyList.dispose();
 
     Emitter.remove("Browser::Open", onOpen);
     document.removeEventListener("Browser::Active", onActive);
@@ -157,9 +160,8 @@ export const Browser = () =>
           {!online()
             ? <Offline />
             : <Toolbar
-                onSearchStart={onSearchStart}
-                onSearchEnd={onSearchEnd}
                 onFocus={onToolbarFocus}
+                onNavigate={onNavigate}
                 id={window}
               />
           }

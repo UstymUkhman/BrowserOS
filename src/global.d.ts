@@ -5,7 +5,6 @@
 declare type System = Window & typeof globalThis &
 {
   Electron?: {
-    searchBrowser: (id: string, url: string) => void;
     reloadBrowser: (id: string) => void;
     hideBrowsers: (id?: string) => void;
     showBrowser: (id: string) => void;
@@ -22,7 +21,8 @@ declare type System = Window & typeof globalThis &
 declare const APP_DEV: boolean;
 declare const VERSION: string;
 
-declare type Rectangle = {
+declare type Rectangle =
+{
   height: number;
   width: number;
   y: number;

@@ -76,7 +76,8 @@ export const Window = (
 
   const click = (event: ClickEvent) => {
     event.stopPropagation();
-    onClick(window as HTMLElement);
+    const { dataset } = event.target as HTMLElement;
+    !("preventWindowFocus" in dataset) && onClick(window as HTMLElement);
   };
 
   const close = (event: ClickEvent) => {
@@ -84,7 +85,8 @@ export const Window = (
     onClose(id);
   };
 
-  const toggleFullscreen = () => {
+  const toggleFullscreen = (event: ClickEvent) => {
+    event.stopPropagation();
     setFullscreen(!fullscreen());
 
     const inner = innerRect(
@@ -113,6 +115,7 @@ export const Window = (
   return (
     <aside
       id={id}
+      onclick={click}
       class={CSS.window}
       ref={window as HTMLElement}
       style={{
@@ -128,7 +131,6 @@ export const Window = (
           onmouseout={dragStop}
           onmouseup={dragStop}
           class={CSS.toolbar}
-          onclick={click}
           classList={{
             [CSS.fullscreen]: fullscreen(),
             [CSS.dragging]: drag()

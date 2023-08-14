@@ -91,7 +91,8 @@ app.on("window-all-closed", () =>
 );
 
 ipcMain.on("Browser::Show", (_: IpcMainEvent, id: string) =>
-  (BrowserWindow.getAllWindows() as CustomBrowser[]).forEach(window => {
+  (BrowserWindow.getAllWindows() as CustomBrowser[]).forEach(window =>
+  {
     if (window.frameName === id) focusBrowserWindow(window);
     else if (window.frameName?.includes("Browser")) window.hide();
   })
@@ -105,10 +106,6 @@ ipcMain.on("Browser::Hide", (_: IpcMainEvent, id?: string) =>
 
 ipcMain.on("Browser::Reload", (_: IpcMainEvent, id: string) =>
   findBrowserWindow(id)?.webContents.reload()
-);
-
-ipcMain.on("Browser::Search", (_: IpcMainEvent, id: string, url: string) =>
-  findBrowserWindow(id)?.webContents.loadURL(url)
 );
 
 ipcMain.on("Browser::Update", (_: IpcMainEvent, id: string, rect: Rectangle) => {

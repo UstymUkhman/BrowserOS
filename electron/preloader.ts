@@ -1,7 +1,8 @@
 import type { Rectangle } from "electron";
 import { contextBridge, ipcRenderer } from "electron";
 
-contextBridge.exposeInMainWorld("Electron", {
+contextBridge.exposeInMainWorld("Electron",
+{
   showBrowser: (id: string) =>
     ipcRenderer.send("Browser::Show", id),
 
@@ -10,9 +11,6 @@ contextBridge.exposeInMainWorld("Electron", {
 
   reloadBrowser: (id: string) =>
     ipcRenderer.send("Browser::Reload", id),
-
-  searchBrowser: (id: string, url: string) =>
-    ipcRenderer.send("Browser::Search", id, url),
 
   updateBrowser: (id: string, rect: Rectangle) =>
     ipcRenderer.send("Browser::Update", id, rect),

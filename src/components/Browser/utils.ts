@@ -1,4 +1,4 @@
-import HistoryList from "@/components/Browser/HistoryList";
+// import HistoryList from "@/components/Browser/HistoryList";
 import FocusList from "@/components/Browser/FocusList";
 import { innerRect } from "@/components/Window/utils";
 
@@ -20,6 +20,6 @@ export const rectOffset = (rect: Rectangle) =>
   screenRect(innerRect(false, { ...rect }, innerOffset));
 
 export const startUrl = "https://www.google.com/";
-export const historyList = new HistoryList();
+// export const historyList = new HistoryList();
 export const focusList = new FocusList();
 export const windowOffset = [25, 25];

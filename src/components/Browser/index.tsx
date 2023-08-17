@@ -1,6 +1,7 @@
 import {
   startUrl,
   features,
+  rectList,
   focusList,
   screenRect,
   rectOffset,
@@ -25,11 +26,20 @@ export const Browser = (_: object, browserId = 0) =>
   const [online, setOnline] = createSignal(navigator.onLine);
   const updateConnection = () => setOnline(navigator.onLine);
 
-  const onMinimize = (rect: Rectangle, id?: string) =>
+  const onMinimize = (rect: Rectangle, id?: string) => {
     OS.Electron?.updateBrowser(id as string, screenRect(rect));
+    rectList.update(id as string, rect);
+  };
 
-  const onMaximize = (rect: Rectangle, id?: string) =>
+  const onMaximize = (rect: Rectangle, id?: string) => {
     OS.Electron?.updateBrowser(id as string, screenRect(rect));
+    rectList.update(id as string, rect);
+  };
+
+  const onBlur = (rect: Rectangle, id?: string) => {
+    OS.Electron?.updateBrowser(id as string, screenRect(rect));
+    rectList.update(id as string, rect);
+  };
 
   const onNavigate = (id: string, url: string) => {
     views[id].close();
@@ -37,15 +47,12 @@ export const Browser = (_: object, browserId = 0) =>
     views[id] = open(
       url, id,
       features(
-        rectOffset(
-          rect()
+        screenRect(
+          rectList.get(id)
         )
       )
     ) as Window;
   };
-
-  const onBlur = (rect: Rectangle, id?: string) =>
-    OS.Electron?.updateBrowser(id as string, screenRect(rect));
 
   const onClick = (window: HTMLElement) => {
     OS.Electron?.showBrowser(window.id);
@@ -92,6 +99,7 @@ export const Browser = (_: object, browserId = 0) =>
     setWindows((windows) => disposeWindow(windows, id));
 
     focusList.remove(id);
+    rectList.remove(id);
     views[id].close();
 
     if (!windows.length) {
@@ -114,6 +122,7 @@ export const Browser = (_: object, browserId = 0) =>
       setRect({ x, y, width, height });
       setWindows(windows.length, id);
 
+      rectList.add(id, rect());
       focusList.add(id);
 
       views[id] = open(

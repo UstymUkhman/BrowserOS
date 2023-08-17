@@ -33,13 +33,12 @@ export const Toolbar = ({
   };
 
   const onSearch = () => {
-    let link = url();
     // if (historyList.last === link) return;
 
-    if (!link.match(/https?:\/\/(www\.)?/))
-      setUrl(link = `http://${link}`);
+    if (!url().match(/https?:\/\/(www\.)?/))
+      setUrl(`http://${url()}`);
 
-    onNavigate(id, link);
+    onNavigate(id, url());
     // historyList.add(id, link);
     (search as HTMLInputElement).blur();
   };

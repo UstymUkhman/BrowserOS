@@ -67,8 +67,10 @@ export const Browser = (_: object, browserId = 0) =>
     window.style.zIndex = "1";
   };
 
-  const onToolbarFocus = (id: string) =>
-    onFocus(document.getElementById(id) as HTMLElement);
+  const onToolbarFocus = (id: string) => {
+    const window = document.getElementById(id) as HTMLElement;
+    if (window.style.zIndex !== "1") onFocus(window);
+  };
 
   const onActive = (event: Event) => {
     const { detail } = event as CustomEvent;

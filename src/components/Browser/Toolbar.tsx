@@ -34,9 +34,10 @@ export const Toolbar = ({
 
   const onSearch = () => {
     let link = url();
+    // if (historyList.last === link) return;
 
     if (!link.match(/https?:\/\/(www\.)?/))
-      link = `http://${link}`;
+      setUrl(link = `http://${link}`);
 
     onNavigate(id, link);
     // historyList.add(id, link);
@@ -77,7 +78,7 @@ export const Toolbar = ({
       <div class={CSS.search}>
         <input
           ref={search as HTMLInputElement}
-          data-prevent-window-focus
+          // data-prevent-window-focus
           onFocus={onSearchFocus}
           onKeyDown={onKeyDown}
           onBlur={onSearchEnd}

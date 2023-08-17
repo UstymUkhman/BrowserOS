@@ -1,21 +1,13 @@
 export default class FocusList
 {
-  private willClose = false;
   private readonly windows: string[] = [];
 
   public getLast(): HTMLElement | null {
-    if (!this.willClose) return null;
-
     const last = this.windows[this.last];
-    const window = document.getElementById(last);
-
-    this.willClose = false;
-    return window;
+    return document.getElementById(last);
   }
 
   public remove (id: string): void {
-    this.willClose = true;
-
     this.windows.splice(
       this.windows.findIndex(
         window => window === id
@@ -43,7 +35,6 @@ export default class FocusList
 
   public dispose (): void {
     this.windows.length = 0.0;
-    this.willClose = false;
   }
 
   private get last (): number {

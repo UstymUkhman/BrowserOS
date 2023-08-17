@@ -80,18 +80,15 @@ export const Window = (
     !("preventWindowFocus" in dataset) && onClick(window as HTMLElement);
   };
 
-  const close = (event: ClickEvent) => {
-    event.stopPropagation();
-    onClose(id);
-  };
-
   const toggleFullscreen = (event: ClickEvent) => {
     event.stopPropagation();
     setFullscreen(!fullscreen());
 
     const inner = innerRect(
       fullscreen(),
-      undefined,
+      !fullscreen()
+        ? { ...rect }
+        : undefined,
       innerOffset
     );
 
@@ -150,7 +147,7 @@ export const Window = (
 
             <img
               src={theme.dark ? Icon.light.close : Icon.dark.close}
-              onclick={close}
+              onclick={() => onClose(id)}
               title="Close"
             />
           </div>

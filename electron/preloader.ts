@@ -1,10 +1,13 @@
-import type { Rectangle } from "electron";
 import { contextBridge, ipcRenderer } from "electron";
+import type { Rectangle } from "electron";
 
 contextBridge.exposeInMainWorld("Electron",
 {
   showBrowser: (id: string) =>
     ipcRenderer.send("Browser::Show", id),
+
+  blurBrowser: (id?: string) =>
+    ipcRenderer.send("Browser::Blur", id),
 
   hideBrowsers: (id?: string) =>
     ipcRenderer.send("Browser::Hide", id),
@@ -19,10 +22,10 @@ contextBridge.exposeInMainWorld("Electron",
 });
 
 window.addEventListener("DOMContentLoaded", () => {
-  console.info(`OS       : v${process.env.npm_package_version}`);
-  console.info(`Node     : v${process.versions.node}`);
-  console.info(`Chrome   : v${process.versions.chrome}`);
-  console.info(`Electron : v${process.versions.electron}`);
+  console.info(`Node      : v${process.versions.node}`);
+  console.info(`Chrome    : v${process.versions.chrome}`);
+  console.info(`Electron  : v${process.versions.electron}`);
+  console.info(`BrowserOS : v${process.env.npm_package_version}`);
 });
 
 ipcRenderer.on("Browser::Focus", (_, detail: string) =>

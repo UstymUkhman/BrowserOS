@@ -98,6 +98,10 @@ ipcMain.on("Browser::Show", (_: IpcMainEvent, id: string) =>
   })
 );
 
+ipcMain.on("Browser::Blur", (_: IpcMainEvent, id: string) =>
+  findBrowserWindow(id)?.blur()
+);
+
 ipcMain.on("Browser::Hide", (_: IpcMainEvent, id?: string) =>
   (BrowserWindow.getAllWindows() as CustomBrowser[]).forEach(window =>
     window.frameName?.includes("Browser") && window.frameName !== id && window.hide()

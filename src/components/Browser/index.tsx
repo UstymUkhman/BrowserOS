@@ -6,6 +6,7 @@ import {
   screenRect,
   rectOffset,
   innerOffset,
+  historyList,
   windowOffset
 } from "./utils";
 
@@ -42,6 +43,7 @@ export const Browser = (_: object, browserId = 0) =>
   };
 
   const onNavigate = (id: string, url: string) => {
+    historyList.add(id, url);
     views[id].close();
 
     views[id] = open(
@@ -74,11 +76,6 @@ export const Browser = (_: object, browserId = 0) =>
     window.style.zIndex = "1";
   };
 
-  const onToolbarFocus = (id: string) => {
-    const window = document.getElementById(id) as HTMLElement;
-    if (window.style.zIndex !== "1") onFocus(window);
-  };
-
   const onActive = (event: Event) => {
     const { detail } = event as CustomEvent;
     const window = focusList.getLast();
@@ -98,6 +95,7 @@ export const Browser = (_: object, browserId = 0) =>
     if (!id) return console.error(`Window with id "${id}" not found.`);
     setWindows((windows) => disposeWindow(windows, id));
 
+    historyList.remove(id);
     focusList.remove(id);
     rectList.remove(id);
     views[id].close();
@@ -122,14 +120,22 @@ export const Browser = (_: object, browserId = 0) =>
       setRect({ x, y, width, height });
       setWindows(windows.length, id);
 
-      rectList.add(id, rect());
+      historyList.create(id);
       focusList.add(id);
+
+      rectList.add(
+        id, rectOffset(
+          rect(),
+          false
+        )
+      );
 
       views[id] = open(
         startUrl, id,
         features(
           rectOffset(
-            rect()
+            rect(),
+            true
           )
         )
       ) as Window;
@@ -144,7 +150,9 @@ export const Browser = (_: object, browserId = 0) =>
   globalThis.addEventListener("offline", updateConnection, false);
 
   onCleanup(() => {
+    rectList.dispose();
     focusList.dispose();
+    historyList.dispose();
 
     Emitter.remove("Browser::Open", onOpen);
     document.removeEventListener("Browser::Active", onActive);
@@ -171,8 +179,8 @@ export const Browser = (_: object, browserId = 0) =>
           {!online()
             ? <Offline />
             : <Toolbar
-                onFocus={onToolbarFocus}
                 onNavigate={onNavigate}
+                onFocus={onClick}
                 id={window}
               />
           }

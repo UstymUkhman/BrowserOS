@@ -1,8 +1,7 @@
-import { contextBridge, ipcRenderer } from "electron";
 import type { Rectangle } from "electron";
+import { contextBridge, ipcRenderer } from "electron";
 
-contextBridge.exposeInMainWorld("Electron",
-{
+contextBridge.exposeInMainWorld("Electron", {
   showBrowser: (id: string) =>
     ipcRenderer.send("Browser::Show", id),
 

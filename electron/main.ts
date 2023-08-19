@@ -60,8 +60,7 @@ app.on("web-contents-created", (_, contents) =>
     event.preventDefault();
 
     event.newGuest = new BrowserWindow(
-      Object.assign(options,
-      {
+      Object.assign(options, {
         parent: window as BrowserWindow,
         copyhistory: false,
         directories: false,
@@ -91,8 +90,7 @@ app.on("window-all-closed", () =>
 );
 
 ipcMain.on("Browser::Show", (_: IpcMainEvent, id: string) =>
-  (BrowserWindow.getAllWindows() as CustomBrowser[]).forEach(window =>
-  {
+  (BrowserWindow.getAllWindows() as CustomBrowser[]).forEach(window => {
     if (window.frameName === id) focusBrowserWindow(window);
     else if (window.frameName?.includes("Browser")) window.hide();
   })
@@ -118,16 +116,14 @@ ipcMain.on("Browser::Update", (_: IpcMainEvent, id: string, rect: Rectangle) => 
   focusBrowserWindow(window);
 });
 
-function focusBrowserWindow (window?: BrowserWindow | void): void
-{
+function focusBrowserWindow (window?: BrowserWindow | void): void {
   if (!window) return;
   window.moveTop();
   window.focus();
   window.show();
 }
 
-function findBrowserWindow (id: string): BrowserWindow | void
-{
+function findBrowserWindow (id: string): BrowserWindow | void {
   const windows = BrowserWindow.getAllWindows() as CustomBrowser[];
   const window = windows.find(({ frameName }) => frameName === id);
   return window ?? console.error(`Browser Window "${id}" not found.`);

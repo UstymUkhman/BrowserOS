@@ -1,11 +1,11 @@
 import { OS } from "@/app";
 import CSS from "./Toolbar.module.css";
-import { createSignal } from "solid-js";
 import type { ToolbarProps } from "./types";
 import { DELTA_UPDATE } from "@/utils/Number";
 import { startUrl, historyList } from "./utils";
 
 import Arrow from "@/assets/icons/Browser/arrow.svg";
+import { createSignal, createEffect } from "solid-js";
 import Reload from "@/assets/icons/Browser/reload.svg";
 import Search from "@/assets/icons/Browser/search.svg";
 
@@ -14,18 +14,32 @@ export const Toolbar = ({
   onFocus,
   id
 }: ToolbarProps) => {
+  const [last, setLast] = createSignal(true);
   const [cursor, setCursor] = createSignal(0);
   const [url, setUrl] = createSignal(startUrl);
 
   const onReload = () => OS.Electron?.reloadBrowser(id);
 
   const onKeyDown = (event: KeyboardEvent) =>
-    event.key === "Enter" ? onSearch()
-      : setUrl((search as HTMLInputElement).value);
+    event.key === "Enter" && onSearch(true);
 
-  const onClick = () => {
-    const window = document.getElementById(id) as HTMLElement;
-    if (window.style.zIndex !== "1") onFocus?.(window);
+  const onSearch = (update = false) => {
+    const searchBar = search as HTMLInputElement;
+
+    // Skip navigation if current URL matches the last one in history
+    // except "onForward" click (but in that case "update" flag is false):
+    if (update && setUrl(searchBar.value) === historyList.getLast(id)) return;
+
+    // Add "http://" to typed URL string if it's missing:
+    if (!url().match(/https?:\/\/(www\.)?/)) setUrl(`http://${url()}`);
+
+    if (update) {
+      historyList.add(id, url());
+      setCursor(cursor() + 1);
+    }
+
+    onNavigate(id, url());
+    searchBar.blur();
   };
 
   const onBackward = () => {
@@ -42,15 +56,9 @@ export const Toolbar = ({
     onSearch();
   };
 
-  const onSearch = () => {
-    if (historyList.getLast(id) === url()) return;
-
-    if (!url().match(/https?:\/\/(www\.)?/))
-      setUrl(`http://${url()}`);
-
-    onNavigate(id, url());
-    setCursor(cursor() + 1);
-    (search as HTMLInputElement).blur();
+  const onClick = () => {
+    const window = document.getElementById(id) as HTMLElement;
+    if (window.style.zIndex !== "1") onFocus?.(window);
   };
 
   const select = () => {
@@ -61,6 +69,10 @@ export const Toolbar = ({
       (search as HTMLInputElement).select();
     }, DELTA_UPDATE);
   };
+
+  createEffect(() =>
+    setLast(historyList.isLast(id, cursor()))
+  );
 
   let search: unknown;
 
@@ -76,7 +88,7 @@ export const Toolbar = ({
         </button>
 
         <button
-          classList={{ [CSS.disabled]: true }}
+          classList={{ [CSS.disabled]: last() }}
           onClick={onForward}
           title="Forward"
         >
@@ -102,7 +114,7 @@ export const Toolbar = ({
         />
 
         <button
-          onClick={onSearch}
+          onClick={() => onSearch(true)}
           title="Search"
         >
           <Search />

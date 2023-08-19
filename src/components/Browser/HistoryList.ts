@@ -14,13 +14,14 @@ export default class HistoryList
     const history = this.history.get(id);
     const cursor = this.cursor.get(id);
 
-    cursor !== undefined
-      ? this.cursor.set(id, cursor + 1)
-      : console.error(`Cursor with id "${id}" not found.`);
+    if (cursor === undefined)
+      return console.error(`Cursor with id "${id}" not found.`);
 
     history
-      ? history.push(url)
+      ? (history.splice(cursor + 1), history.push(url))
       : console.error(`History with id "${id}" not found.`);
+
+    this.cursor.set(id, cursor + 1);
   }
 
   public getLast (id: string): string | undefined {
@@ -28,24 +29,33 @@ export default class HistoryList
     return history && history[history.length - 1];
   }
 
-  public forward (id: string): string | false {
-    const cursor = this.cursor.get(id);
+  public isLast (id: string, cursor: number): boolean {
     const history = this.history.get(id);
 
-    if (!cursor || !history) return false;
+    if (cursor === undefined || !history)
+      return true;
 
-    this.cursor.set(id, cursor + 1);
-    return history[cursor + 1];
+    return !history[cursor + 1];
   }
 
-  public backward (id: string): string | false {
+  public backward (id: string): string | void {
     const cursor = this.cursor.get(id);
     const history = this.history.get(id);
 
-    if (!cursor || !history) return false;
+    if (cursor === undefined || !history) return;
 
     this.cursor.set(id, cursor - 1);
     return history[cursor - 1];
+  }
+
+  public forward (id: string): string | void {
+    const cursor = this.cursor.get(id);
+    const history = this.history.get(id);
+
+    if (cursor === undefined || !history) return;
+
+    this.cursor.set(id, cursor + 1);
+    return history[cursor + 1];
   }
 
   public remove (id: string): void {

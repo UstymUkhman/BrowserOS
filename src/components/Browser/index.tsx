@@ -43,7 +43,6 @@ export const Browser = (_: object, browserId = 0) =>
   };
 
   const onNavigate = (id: string, url: string) => {
-    historyList.add(id, url);
     views[id].close();
 
     views[id] = open(
@@ -85,10 +84,10 @@ export const Browser = (_: object, browserId = 0) =>
       ? onClick(window)
       : focusList.focus(detail);
 
-    windows.forEach(id => {
-      const window = document.getElementById(id) as HTMLElement;
-      window.style.zIndex = `${+(detail === id) || ""}`;
-    });
+    windows.forEach(id =>
+      (document.getElementById(id) as HTMLElement)
+        .style.zIndex = `${+(detail === id) || ""}`
+    );
   };
 
   const onClose = (id?: string) => {

@@ -60,7 +60,8 @@ app.on("web-contents-created", (_, contents) =>
     event.preventDefault();
 
     event.newGuest = new BrowserWindow(
-      Object.assign(options, {
+      Object.assign(options,
+      {
         parent: window as BrowserWindow,
         copyhistory: false,
         directories: false,
@@ -74,6 +75,10 @@ app.on("web-contents-created", (_, contents) =>
         frame: false,
         modal: false
       })
+    );
+
+    event.newGuest.webContents.on("did-navigate", (_, url) =>
+      window?.webContents.send("Browser::Navigate", frameName, url)
     );
 
     event.newGuest.on("focus", () =>

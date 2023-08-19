@@ -41,9 +41,16 @@
 }
 
 .buttons button:nth-child(2) {
-  transform: rotate(180deg);
   margin-right: 15px;
   margin-left: 10px;
+}
+
+.buttons button:nth-child(2) svg {
+  transform: scaleX(-1);
+}
+
+.buttons button:nth-child(3) svg {
+  transition: transform 0.2s, fill 0.2s, opacity 0.2s;
 }
 
 .search {

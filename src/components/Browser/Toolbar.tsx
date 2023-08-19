@@ -5,23 +5,37 @@ import { DELTA_UPDATE } from "@/utils/Number";
 import { startUrl, historyList } from "./utils";
 
 import Arrow from "@/assets/icons/Browser/arrow.svg";
-import { createSignal, createEffect } from "solid-js";
-import Reload from "@/assets/icons/Browser/reload.svg";
 import Search from "@/assets/icons/Browser/search.svg";
+import { createSignal, createEffect, onCleanup } from "solid-js";
+import Reload from "@/assets/icons/Browser/reload.svg?component-solid";
 
 export const Toolbar = ({
   onNavigate,
   onFocus,
   id
 }: ToolbarProps) => {
+  let search: unknown;
+
   const [last, setLast] = createSignal(true);
   const [cursor, setCursor] = createSignal(0);
-  const [url, setUrl] = createSignal(startUrl);
 
-  const onReload = () => OS.Electron?.reloadBrowser(id);
+  const [url, setUrl] = createSignal(startUrl);
+  const [rotation, setRotation] = createSignal(0);
 
   const onKeyDown = (event: KeyboardEvent) =>
     event.key === "Enter" && onSearch(true);
+
+  const onNavigation = (event: Event) => {
+    /// TODO: Update url when it's corrected on browser side:
+    const { id, url } = (event as CustomEvent).detail;
+    if (historyList.getCurrent(id) === url) return;
+
+    historyList.add(id, url);
+    setCursor(cursor() + 1);
+
+    onNavigate(id, url);
+    setUrl(url);
+  };
 
   const onSearch = (update = false) => {
     const searchBar = search as HTMLInputElement;
@@ -56,6 +70,11 @@ export const Toolbar = ({
     onSearch();
   };
 
+  const onReload = () => {
+    OS.Electron?.reloadBrowser(id);
+    setRotation(rotation() + 1);
+  };
+
   const onClick = () => {
     const window = document.getElementById(id) as HTMLElement;
     if (window.style.zIndex !== "1") onFocus?.(window);
@@ -74,7 +93,11 @@ export const Toolbar = ({
     setLast(historyList.isLast(id, cursor()))
   );
 
-  let search: unknown;
+  document.addEventListener("Browser::Navigation", onNavigation);
+
+  onCleanup(() =>
+    document.removeEventListener("Browser::Navigation", onNavigation)
+  );
 
   return (
     <div onClick={onClick} class={CSS.toolbar}>
@@ -99,7 +122,9 @@ export const Toolbar = ({
           onClick={onReload}
           title="Reload"
         >
-          <Reload />
+          <Reload style={{
+            transform: `scaleX(-1) rotate(${rotation() * -180}deg)`
+          }} />
         </button>
       </div>
 

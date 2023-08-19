@@ -38,6 +38,15 @@ export default class HistoryList
     return !history[cursor + 1];
   }
 
+  public getCurrent (id: string): string | undefined {
+    const cursor = this.cursor.get(id);
+    const history = this.history.get(id);
+
+    if (cursor === undefined || !history) return;
+
+    return history[cursor];
+  }
+
   public backward (id: string): string | void {
     const cursor = this.cursor.get(id);
     const history = this.history.get(id);

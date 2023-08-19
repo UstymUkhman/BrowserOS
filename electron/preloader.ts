@@ -30,3 +30,7 @@ window.addEventListener("DOMContentLoaded", () => {
 ipcRenderer.on("Browser::Focus", (_, detail: string) =>
   document.dispatchEvent(new CustomEvent("Browser::Active", { detail }))
 );
+
+ipcRenderer.on("Browser::Navigate", (_, id: string, url: string) =>
+  document.dispatchEvent(new CustomEvent("Browser::Navigation", { detail: { id, url } }))
+);

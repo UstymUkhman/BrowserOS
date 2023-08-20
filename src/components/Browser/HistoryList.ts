@@ -29,12 +29,19 @@ export default class HistoryList
     return history && history[history.length - 1];
   }
 
+  public updateLast (id: string, url: string): void {
+    const history = this.history.get(id);
+
+    if (!history)
+      return console.error(`History with id "${id}" not found.`);
+
+    history[history.length - 1] = url;
+  }
+
   public isLast (id: string, cursor: number): boolean {
     const history = this.history.get(id);
 
-    if (cursor === undefined || !history)
-      return true;
-
+    if (cursor === undefined || !history) return true;
     return !history[cursor + 1];
   }
 
@@ -43,7 +50,6 @@ export default class HistoryList
     const history = this.history.get(id);
 
     if (cursor === undefined || !history) return;
-
     return history[cursor];
   }
 

@@ -6,6 +6,7 @@ process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "true";
 delete process.env.ELECTRON_ENABLE_SECURITY_WARNINGS;
 
 let window: BrowserWindow | null = null;
+
 import { exec } from "child_process";
 import { join } from "path";
 
@@ -75,6 +76,10 @@ app.on("web-contents-created", (_, contents) =>
         frame: false,
         modal: false
       })
+    );
+
+    event.newGuest.webContents.on("did-redirect-navigation", (_, url) =>
+      window?.webContents.send("Browser::Redirect", frameName, url)
     );
 
     event.newGuest.webContents.on("did-navigate", (_, url) =>

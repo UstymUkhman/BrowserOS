@@ -34,3 +34,7 @@ ipcRenderer.on("Browser::Focus", (_, detail: string) =>
 ipcRenderer.on("Browser::Navigate", (_, id: string, url: string) =>
   document.dispatchEvent(new CustomEvent("Browser::Navigation", { detail: { id, url } }))
 );
+
+ipcRenderer.on("Browser::Redirect", (_, id: string, url: string) =>
+  document.dispatchEvent(new CustomEvent("Browser::Redirection", { detail: { id, url } }))
+);

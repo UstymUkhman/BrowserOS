@@ -25,16 +25,24 @@ export const Toolbar = ({
   const onKeyDown = (event: KeyboardEvent) =>
     event.key === "Enter" && onSearch(true);
 
+  const onRedirection = (event: Event) => {
+    const { detail } = event as CustomEvent;
+    if (detail.id !== id) return;
+
+    historyList.updateLast(detail.id, detail.url);
+    setUrl(detail.url);
+  };
+
   const onNavigation = (event: Event) => {
-    /// TODO: Update url when it's corrected on browser side:
-    const { id, url } = (event as CustomEvent).detail;
-    if (historyList.getCurrent(id) === url) return;
+    const { detail } = event as CustomEvent;
+    const url = historyList.getCurrent(detail.id);
+    if (detail.id !== id || detail.url === url) return;
 
-    historyList.add(id, url);
+    historyList.add(detail.id, detail.url);
+    onNavigate(detail.id, detail.url);
+
     setCursor(cursor() + 1);
-
-    onNavigate(id, url);
-    setUrl(url);
+    setUrl(detail.url);
   };
 
   const onSearch = (update = false) => {
@@ -94,10 +102,12 @@ export const Toolbar = ({
   );
 
   document.addEventListener("Browser::Navigation", onNavigation);
+  document.addEventListener("Browser::Redirection", onRedirection);
 
-  onCleanup(() =>
-    document.removeEventListener("Browser::Navigation", onNavigation)
-  );
+  onCleanup(() => {
+    document.removeEventListener("Browser::Navigation", onNavigation);
+    document.removeEventListener("Browser::Redirection", onRedirection);
+  });
 
   return (
     <div onClick={onClick} class={CSS.toolbar}>

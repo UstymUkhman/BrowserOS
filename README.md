@@ -16,7 +16,7 @@ _Electron app turned into OS_
 ![](./public/assets/images/preview/light.png)
 ![](./public/assets/images/preview/dark.png)
 
-[![]](https://github.com/UstymUkhman/BrowserOS/assets/9247261/3c464add-2def-4d11-9be3-6d642282312b)
+[![]](https://github.com/UstymUkhman/BrowserOS/assets/9247261/99711c62-1e3e-4d21-b934-e6bb1848514c)
 
 ## ❔ What Is This ##
 

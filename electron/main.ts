@@ -61,8 +61,7 @@ app.on("web-contents-created", (_, contents) =>
     event.preventDefault();
 
     event.newGuest = new BrowserWindow(
-      Object.assign(options,
-      {
+      Object.assign(options, {
         parent: window as BrowserWindow,
         copyhistory: false,
         directories: false,
@@ -122,8 +121,14 @@ ipcMain.on("Browser::Reload", (_: IpcMainEvent, id: string) =>
 
 ipcMain.on("Browser::Update", (_: IpcMainEvent, id: string, rect: Rectangle) => {
   const window = findBrowserWindow(id);
-  window?.setBounds(rect);
   focusBrowserWindow(window);
+
+  window?.setBounds({
+    height: rect.height | 0,
+    width: rect.width | 0,
+    y: rect.y | 0,
+    x: rect.x | 0
+  });
 });
 
 function focusBrowserWindow (window?: BrowserWindow | void): void {

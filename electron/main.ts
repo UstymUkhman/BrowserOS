@@ -141,5 +141,5 @@ function findBrowserWindow (id: string): BrowserWindow | void {
 
 ipcMain.on("OS::Shutdown", () => {
   window?.destroy();
-  exec("init 0");
+  PRODUCTION && exec("init 0");
 });

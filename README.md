@@ -2,7 +2,7 @@
 
 _Electron app turned into OS_
 
-> ⚠️ This project probably won't be maintained nor updated in any way. If you've found an issue or have a feature request, ~~please keep it to yourself.~~ don't be lazy and feel free to fork this repo and fix/implement it by yourself. ⚠️
+> ⚠️ This project probably won't be maintained nor updated in any way. If you've found an issue or have a feature request, ~~please keep it to yourself.~~ don't be lazy and feel free to fork this repo and fix/implement it by yourself.
 
 ![](https://img.shields.io/github/package-json/dependency-version/UstymUkhman/BrowserOS/dev/typescript?style=flat-square)
 ![](https://img.shields.io/github/package-json/dependency-version/UstymUkhman/BrowserOS/solid-js?style=flat-square)
@@ -16,7 +16,7 @@ _Electron app turned into OS_
 ![](./public/assets/images/preview/light.png)
 ![](./public/assets/images/preview/dark.png)
 
-[![]](https://github.com/UstymUkhman/BrowserOS/assets/9247261/cc92e304-9ff2-4d80-9d60-739566c7f34c)
+[![]](https://github.com/UstymUkhman/BrowserOS/assets/9247261/3c464add-2def-4d11-9be3-6d642282312b)
 
 ## ❔ What Is This ##
 

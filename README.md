@@ -8,7 +8,6 @@ _Electron app turned into OS_
 ![](https://img.shields.io/github/package-json/dependency-version/UstymUkhman/BrowserOS/solid-js?style=flat-square)
 ![](https://img.shields.io/github/package-json/dependency-version/UstymUkhman/BrowserOS/dev/vite?style=flat-square)
 
-![](https://img.shields.io/github/deployments/UstymUkhman/BrowserOS/github-pages?style=flat-square)
 ![](https://img.shields.io/github/repo-size/UstymUkhman/BrowserOS?color=yellowgreen&style=flat-square)
 ![](https://img.shields.io/github/package-json/v/UstymUkhman/BrowserOS?color=orange&style=flat-square)
 ![](https://img.shields.io/github/license/UstymUkhman/BrowserOS?color=lightgrey&style=flat-square)

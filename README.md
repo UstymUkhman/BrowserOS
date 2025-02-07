@@ -12,10 +12,10 @@ _Electron app turned into OS_
 ![](https://img.shields.io/github/package-json/v/UstymUkhman/BrowserOS?color=orange&style=flat-square)
 ![](https://img.shields.io/github/license/UstymUkhman/BrowserOS?color=lightgrey&style=flat-square)
 
+[![](https://img.youtube.com/vi/RQrrg2Gt_-A/0.jpg)](https://youtu.be/RQrrg2Gt_-A)
+
 ![](./public/assets/images/preview/light.png)
 ![](./public/assets/images/preview/dark.png)
-
-[![]](https://github.com/UstymUkhman/BrowserOS/assets/9247261/99711c62-1e3e-4d21-b934-e6bb1848514c)
 
 ## ❔ What Is This ##
 
